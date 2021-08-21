@@ -1,28 +1,43 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Appearance, StatusBar } from 'react-native';
 import Cloud from '../components/Cloud';
 import TopCloud from '../components/TopCloud';
 import VolumeXSvg from '../../assets/svg/volume-x.svg';
 import ChangeThemeSvg from '../../assets/svg/change-theme.svg';
+import {changeBarColors} from 'react-native-immersive-bars';
+
 
 const HomeScreen = () => {
+
+  const [theme, setTheme] = useState(null)
+  useEffect(() => {
+    changeTheme(theme, setTheme);
+  }, [])
+
   return (
-    <View>
+    <View style={[styles.[theme], {flex: 1}]}>
+      <StatusBar translucent backgroundColor="transparent" />
       <TopCloud
         height='30%'
         Title='Rainery'
         Subtitle='Start moving for optimization to start'
       />
     <View style={styles.textContainer}>
-        <Text style={[styles.textRegularDark, {paddingVertical: 15}]}>Wind direction: Southwest</Text>
-        <Text style={[styles.textRegularDark, {paddingVertical: 15}]}>Movement direction: Northwest</Text>
+        { theme === 'light'
+          ? <Text style={[styles.textRegularDark, {paddingVertical: 15}]}>Wind direction: Southwest</Text>
+          : <Text style={[styles.textRegularWhite, {paddingVertical: 15}]}>Wind direction: Southwest</Text>}
+        { theme === 'light'
+          ? <Text style={[styles.textRegularDark, {paddingVertical: 15}]}>Movement direction: Northwest</Text>
+          : <Text style={[styles.textRegularWhite, {paddingVertical: 15}]}>Movement direction: Northwest</Text> }
       </View>
       <Cloud
         text={"Optimal movement speed: \n 15 km/h"}
         textStyle='textRegularWhite'
       />
       <View style={styles.textContainer}>
-        <Text style={[styles.textRegularDark, {paddingVertical: 15}]}>Current Movement Speed: 10 km/h</Text>
+        { theme === 'light'
+          ? <Text style={[styles.textRegularDark, {paddingVertical: 15}]}>Current Movement Speed: 10 km/h</Text>
+          : <Text style={[styles.textRegularWhite, {paddingVertical: 15}]}>Current Movement Speed: 10 km/h</Text> }
       </View>
       <Cloud
         text={"Faster!"}
@@ -32,7 +47,7 @@ const HomeScreen = () => {
         <View style={{paddingRight: 60}}>
           <TouchableOpacity>
             <VolumeXSvg
-              stroke={'rgba(49, 81, 116, 1)'}
+              stroke={theme === 'dark' ? 'white' : '#145066'}
               strokeWidth={1.5}
               height={41}
               width={41}
@@ -40,11 +55,15 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
         <View style={{paddingLeft: 60}}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setTheme(switchTheme(theme))
+            }}
+          >
             <ChangeThemeSvg
-              fill={'rgba(49, 81, 116, 1)'}
-              height={41}
-              width={41}
+              fill={theme==='dark' ? 'white' : '#145066'}
+              height={34}
+              width={34}
             />
           </TouchableOpacity>
         </View>
@@ -52,6 +71,26 @@ const HomeScreen = () => {
   </View>
   );
 };
+
+const changeTheme = (theme, setTheme) => {
+  const systemTheme = Appearance.getColorScheme();
+  console.log(systemTheme, theme);
+  if (!theme && systemTheme) {
+    setTheme(systemTheme)
+  } else if (!theme) {
+    setTheme('light')
+  }
+};
+
+ const switchTheme = (theme) => {
+   if (theme === 'light') {
+     return 'dark';
+   } else {
+     return 'light';
+   }
+   console.log(theme);
+ }
+
 
 const styles = StyleSheet.create({
   textContainer: {
@@ -65,11 +104,25 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: 'center'
   },
+  textRegularWhite: {
+    color: 'white',
+    fontFamily: 'Lato-Regular',
+    fontSize: 22,
+    textAlign: 'center'
+  },
   multiIconContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 20
+  },
+  dark: {
+    backgroundColor: 'rgba(48, 48, 48, 1)',
+    color: 'rgba(48, 48, 48, 1)'
+  },
+  light: {
+    backgroundColor: 'white',
+    color: 'white'
   }
 });
 
