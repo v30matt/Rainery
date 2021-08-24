@@ -3,19 +3,23 @@ import { View, Text, TouchableOpacity, StyleSheet, Appearance, StatusBar } from 
 import Cloud from '../components/Cloud';
 import TopCloud from '../components/TopCloud';
 import VolumeXSvg from '../../assets/svg/volume-x.svg';
-import ChangeThemeSvg from '../../assets/svg/change-theme.svg';
-import {changeBarColors} from 'react-native-immersive-bars';
+import VolumeOnSvg from '../../assets/svg/volume-2.svg';
+import LightThemeIconSvg from '../../assets/svg/sun.svg';
+import DarkThemeIconSvg from '../../assets/svg/moon.svg';
+import rryStyles from '../../assets/styles/rryStyles';
+import rryColors from '../../assets/styles/rryColors';
 
 
 const HomeScreen = () => {
 
   const [theme, setTheme] = useState(null)
+  const [volume, setVolume] = useState('off')
   useEffect(() => {
-    changeTheme(theme, setTheme);
+    startupTheme(theme, setTheme);
   }, [])
 
   return (
-    <View style={[styles.[theme], {flex: 1}]}>
+    <View style={{flex: 1, backgroundColor: rryColors.[theme]}}>
       <StatusBar translucent backgroundColor="transparent" />
       <TopCloud
         height='30%'
@@ -24,47 +28,71 @@ const HomeScreen = () => {
       />
     <View style={styles.textContainer}>
         { theme === 'light'
-          ? <Text style={[styles.textRegularDark, {paddingVertical: 15}]}>Wind direction: Southwest</Text>
-          : <Text style={[styles.textRegularWhite, {paddingVertical: 15}]}>Wind direction: Southwest</Text>}
+          ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Wind direction: Southwest</Text>
+          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Wind direction: Southwest</Text>
+        }
         { theme === 'light'
-          ? <Text style={[styles.textRegularDark, {paddingVertical: 15}]}>Movement direction: Northwest</Text>
-          : <Text style={[styles.textRegularWhite, {paddingVertical: 15}]}>Movement direction: Northwest</Text> }
+          ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Movement direction: Northwest</Text>
+          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Movement direction: Northwest</Text>
+        }
       </View>
       <Cloud
-        text={"Optimal movement speed: \n 15 km/h"}
-        textStyle='textRegularWhite'
+        text={"Optimal movement speed: 15 km/h"}
+        textStyle='textRegular'
       />
       <View style={styles.textContainer}>
         { theme === 'light'
-          ? <Text style={[styles.textRegularDark, {paddingVertical: 15}]}>Current Movement Speed: 10 km/h</Text>
-          : <Text style={[styles.textRegularWhite, {paddingVertical: 15}]}>Current Movement Speed: 10 km/h</Text> }
+          ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Current Movement Speed: 10 km/h</Text>
+          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>{"Current Movement Speed: 10 km/h"}</Text>
+        }
       </View>
       <Cloud
         text={"Faster!"}
-        textStyle='textBigWhite'
+        textStyle='textBig'
       />
     <View style={styles.multiIconContainer}>
         <View style={{paddingRight: 60}}>
-          <TouchableOpacity>
-            <VolumeXSvg
-              stroke={theme === 'dark' ? 'white' : '#145066'}
-              strokeWidth={1.5}
-              height={41}
-              width={41}
-            />
+          <TouchableOpacity
+            onPress={() => {
+              setVolume(volume === 'off' ? 'on' : 'off')
+            }}
+          >
+            { volume === 'off'
+              ? <VolumeXSvg
+                  stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
+                  strokeWidth={1.5}
+                  height={41}
+                  width={41}
+                />
+              : <VolumeOnSvg
+                  stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
+                  strokeWidth={1.5}
+                  height={41}
+                  width={41}
+                />
+            }
           </TouchableOpacity>
         </View>
         <View style={{paddingLeft: 60}}>
           <TouchableOpacity
             onPress={() => {
-              setTheme(switchTheme(theme))
+              setTheme(theme === 'dark' ? 'light' : 'dark')
             }}
           >
-            <ChangeThemeSvg
-              fill={theme==='dark' ? 'white' : '#145066'}
-              height={34}
-              width={34}
-            />
+            { theme === 'dark'
+              ? <DarkThemeIconSvg
+                  stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
+                  strokeWidth={1.5}
+                  height={41}
+                  width={41}
+                />
+              : <LightThemeIconSvg
+                  stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
+                  strokeWidth={1.5}
+                  height={41}
+                  width={41}
+                />
+            }
           </TouchableOpacity>
         </View>
       </View>
@@ -72,24 +100,14 @@ const HomeScreen = () => {
   );
 };
 
-const changeTheme = (theme, setTheme) => {
+const startupTheme = (theme, setTheme) => {
   const systemTheme = Appearance.getColorScheme();
-  console.log(systemTheme, theme);
   if (!theme && systemTheme) {
     setTheme(systemTheme)
   } else if (!theme) {
     setTheme('light')
   }
 };
-
- const switchTheme = (theme) => {
-   if (theme === 'light') {
-     return 'dark';
-   } else {
-     return 'light';
-   }
-   console.log(theme);
- }
 
 
 const styles = StyleSheet.create({
@@ -98,31 +116,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 30
   },
-  textRegularDark: {
-    color: '#145066',
-    fontFamily: 'Lato-Regular',
-    fontSize: 22,
-    textAlign: 'center'
-  },
-  textRegularWhite: {
-    color: 'white',
-    fontFamily: 'Lato-Regular',
-    fontSize: 22,
-    textAlign: 'center'
-  },
   multiIconContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 20
-  },
-  dark: {
-    backgroundColor: 'rgba(48, 48, 48, 1)',
-    color: 'rgba(48, 48, 48, 1)'
-  },
-  light: {
-    backgroundColor: 'white',
-    color: 'white'
+    paddingTop: 20,
+    paddingBottom: 30
   }
 });
 

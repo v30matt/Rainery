@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import CloudSvg from '../../assets/svg/Cloud.svg';
+import rryStyles from '../../assets/styles/rryStyles';
+import rryColors from '../../assets/styles/rryColors';
 
 const Cloud = (props) => {
   return (
@@ -9,7 +11,7 @@ const Cloud = (props) => {
         width='100%'
       />
       <View style={styles.textContainer}>
-        <Text style={styles.[props.textStyle]}>{props.text}</Text>
+        <Text style={[rryStyles.[props.textStyle], {color: rryColors.white}]}>{props.text}</Text>
       </View>
     </View>
   );
@@ -20,28 +22,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 10,
     marginVertical: 60
   },
   textContainer: {
-    flexDirection: 'column',
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '80%',
-    paddingTop: 5,
-  },
-  textRegularWhite: {
-    color: 'white',
-    fontFamily: 'Lato-Regular',
-    fontSize: 22,
-    textAlign: 'center'
-  },
-  textBigWhite: {
-    color: 'white',
-    fontFamily: 'Lato-Regular',
-    fontSize: 36,
-    textAlign: 'center'
+    width: '70%',
+    paddingTop: 5
   }
 });
 
