@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import BigCloudSvg from '../../assets/svg/TopCloud.svg';
 import InfoSvg from '../../assets/svg/info.svg';
+import rryStyles from '../../assets/styles/rryStyles';
+import rryColors from '../../assets/styles/rryColors';
 
 const TopCloud = (props) => {
   return (
@@ -12,8 +14,8 @@ const TopCloud = (props) => {
         />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.titleStyle}>{props.Title}</Text>
-        <Text style={styles.subtitleStyle}>{props.Subtitle}</Text>
+        <Text style={rryStyles.textTitle}>{props.Title}</Text>
+        <Text style={rryStyles.textSubtitle}>{props.Subtitle}</Text>
       </View>
       <View style={{position: 'absolute', right: 41, top: 70}}>
         <TouchableOpacity>
@@ -40,19 +42,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     marginHorizontal: 30,
     marginVertical: 50
-  },
-  titleStyle: {
-    color: 'white',
-    fontFamily: 'Lato-BoldItalic',
-    fontSize: 60,
-    paddingBottom: 5
-  },
-  subtitleStyle: {
-    color: 'white',
-    fontFamily: 'Lato-Italic',
-    fontSize: 30,
-    textAlign: 'left',
-    paddingTop: 5
   }
 });
 
