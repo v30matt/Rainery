@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Appearance, StatusBar } from 
 import Cloud from '../components/Cloud';
 import TopCloud from '../components/TopCloud';
 import VolumeXSvg from '../../assets/svg/volume-x.svg';
+import VolumeOnSvg from '../../assets/svg/volume-2.svg';
 import ChangeThemeSvg from '../../assets/svg/change-theme.svg';
 import rryStyles from '../../assets/styles/rryStyles';
 import rryColors from '../../assets/styles/rryColors';
@@ -11,6 +12,7 @@ import rryColors from '../../assets/styles/rryColors';
 const HomeScreen = () => {
 
   const [theme, setTheme] = useState(null)
+  const [volume, setVolume] = useState('off')
   useEffect(() => {
     startupTheme(theme, setTheme);
   }, [])
@@ -49,19 +51,31 @@ const HomeScreen = () => {
       />
     <View style={styles.multiIconContainer}>
         <View style={{paddingRight: 60}}>
-          <TouchableOpacity>
-            <VolumeXSvg
-              stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
-              strokeWidth={1.5}
-              height={41}
-              width={41}
-            />
+          <TouchableOpacity
+            onPress={() => {
+              setVolume(volume === 'off' ? 'on' : 'off')
+            }}
+          >
+            { volume === 'off'
+              ? <VolumeXSvg
+                  stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
+                  strokeWidth={1.5}
+                  height={41}
+                  width={41}
+                />
+              : <VolumeOnSvg
+                  stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
+                  strokeWidth={1.5}
+                  height={41}
+                  width={41}
+                />
+            }
           </TouchableOpacity>
         </View>
         <View style={{paddingLeft: 60}}>
           <TouchableOpacity
             onPress={() => {
-              setTheme(switchTheme(theme))
+              setTheme(theme === 'dark' ? 'light' : 'dark')
             }}
           >
             <ChangeThemeSvg
@@ -84,12 +98,6 @@ const startupTheme = (theme, setTheme) => {
     setTheme('light')
   }
 };
-
- const switchTheme = (theme) => {
-   return theme === 'light'
-   ? 'dark'
-   : 'light'
- }
 
 
 const styles = StyleSheet.create({
