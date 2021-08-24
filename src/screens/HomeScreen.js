@@ -4,7 +4,8 @@ import Cloud from '../components/Cloud';
 import TopCloud from '../components/TopCloud';
 import VolumeXSvg from '../../assets/svg/volume-x.svg';
 import VolumeOnSvg from '../../assets/svg/volume-2.svg';
-import ChangeThemeSvg from '../../assets/svg/change-theme.svg';
+import LightThemeIconSvg from '../../assets/svg/sun.svg';
+import DarkThemeIconSvg from '../../assets/svg/moon.svg';
 import rryStyles from '../../assets/styles/rryStyles';
 import rryColors from '../../assets/styles/rryColors';
 
@@ -78,11 +79,20 @@ const HomeScreen = () => {
               setTheme(theme === 'dark' ? 'light' : 'dark')
             }}
           >
-            <ChangeThemeSvg
-              fill={theme === 'dark' ? rryColors.white : rryColors.primary}
-              height={34}
-              width={34}
-            />
+            { theme === 'dark'
+              ? <DarkThemeIconSvg
+                  stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
+                  strokeWidth={1.5}
+                  height={41}
+                  width={41}
+                />
+              : <LightThemeIconSvg
+                  stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
+                  strokeWidth={1.5}
+                  height={41}
+                  width={41}
+                />
+            }
           </TouchableOpacity>
         </View>
       </View>
