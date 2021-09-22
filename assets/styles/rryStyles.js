@@ -1,17 +1,18 @@
 import { StyleSheet } from 'react-native';
+import rryColors from './rryColors';
 
 export default StyleSheet.create({
 
   // --- Text Styles ---
 
   textTitle: {
-    color: 'white',
+    color: rryColors.white,
     fontFamily: 'Lato-BoldItalic',
     fontSize: 60,
     paddingBottom: 10
   },
   textSubtitle: {
-    color: 'white',
+    color: rryColors.white,
     fontFamily: 'Lato-Italic',
     fontSize: 30,
     textAlign: 'left',
@@ -21,14 +22,27 @@ export default StyleSheet.create({
     fontFamily: 'Lato-Regular',
     fontSize: 36,
     textAlign: 'center',
-    color: '#145066'
+    color: rryColors.primary
   },
   textRegular: {
     fontFamily: 'Lato-Regular',
     fontSize: 22,
     textAlign: 'center',
-    color: '#145066'
+    color: rryColors.primary
+  },
+  textSmall: {
+    fontFamily: 'Lato-Regular',
+    fontSize: 16,
+    textAlign: 'center',
+    color: rryColors.primary
   },
 
+  // --- View Styles ---
+
+  textContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 30
+  }
 
 })
