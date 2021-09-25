@@ -13,11 +13,8 @@ const InfoScreen = ({ route, navigation }) => {
   const [soundIsEnabled, setSoundIsEnabled] = useState(false)
   const [notificationIsEnabled, setNotificationIsEnabled] = useState(false)
   useEffect(() => {
-      console.log("Triggered Load");
       getSoundSettings().then(soundSettings => setSoundIsEnabled(soundSettings));
       getNotificationSettings().then(notificationSettings => setNotificationIsEnabled(notificationSettings));
-      console.log("Completed Load");
-      getSoundSettings().then(soundSettings => console.log(soundSettings));
     }, [])
   return (
     <SafeAreaView style={{flex: 1, paddingBottom: 20, backgroundColor: rryColors.[theme]}} edges={['bottom']}>
