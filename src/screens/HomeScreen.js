@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Appearance, StatusBar } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Cloud from '../components/Cloud';
 import TopCloud from '../components/TopCloud';
 import VolumeXSvg from '../../assets/svg/volume-x.svg';
@@ -12,21 +13,20 @@ import rryColors from '../../assets/styles/rryColors';
 
 const HomeScreen = () => {
 
-  const [theme, setTheme] = useState(null)
+  const [theme, setTheme] = useState(startupTheme())
   const [volume, setVolume] = useState('off')
-  useEffect(() => {
-    startupTheme(theme, setTheme);
-  }, [])
 
   return (
     <View style={{flex: 1, backgroundColor: rryColors.[theme]}}>
       <StatusBar translucent backgroundColor="transparent" />
       <TopCloud
-        height='30%'
+        height='35%'
         Title='Rainery'
         Subtitle='Start moving for optimization to start'
+        icon='info'
+        theme={theme}
       />
-    <View style={styles.textContainer}>
+    <View style={rryStyles.textContainer}>
         { theme === 'light'
           ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Wind direction: Southwest</Text>
           : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Wind direction: Southwest</Text>
@@ -40,7 +40,7 @@ const HomeScreen = () => {
         text={"Optimal movement speed: 15 km/h"}
         textStyle='textRegular'
       />
-      <View style={styles.textContainer}>
+    <View style={rryStyles.textContainer}>
         { theme === 'light'
           ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Current Movement Speed: 10 km/h</Text>
           : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>{"Current Movement Speed: 10 km/h"}</Text>
@@ -103,19 +103,14 @@ const HomeScreen = () => {
 const startupTheme = (theme, setTheme) => {
   const systemTheme = Appearance.getColorScheme();
   if (!theme && systemTheme) {
-    setTheme(systemTheme)
+    return systemTheme
   } else if (!theme) {
-    setTheme('light')
+    return 'light'
   }
 };
 
 
 const styles = StyleSheet.create({
-  textContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 30
-  },
   multiIconContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
