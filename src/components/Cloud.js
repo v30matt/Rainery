@@ -5,7 +5,6 @@ import rryStyles from '../../assets/styles/rryStyles';
 import rryColors from '../../assets/styles/rryColors';
 
 const Cloud = (props) => {
-  console.log(props);
   return (
     <View style={[styles.container, {marginVertical: props.marginVertical}]}>
       <CloudSvg
