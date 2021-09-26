@@ -25,89 +25,100 @@ const InfoScreen = ({ route, navigation }) => {
         Icon='close'
         onXButtonPress={() => onXButtonPress(navigation)}
       />
-      <Cloud
-        text='Rain saved:'
-        textStyle='textRegular'
-      />
-      <View style={rryStyles.textContainer}>
-        { theme === 'light'
-          ? <Text style={[rryStyles.textSmall, {paddingVertical: 15}]}>We have saved you from n drops of rain up to now. That’s as much as n bathtubs!</Text>
-          : <Text style={[rryStyles.textSmall, {paddingVertical: 15, color: rryColors.white}]}>We have saved you from n drops of rain up to now. That’s as much as n bathtubs!</Text>
-        }
-      </View>
-      <Cloud
-        text='How it works:'
-        textStyle='textRegular'
-      />
-      <View style={rryStyles.textContainer}>
-        { theme === 'light'
-          ? <Text style={[rryStyles.textSmall, {paddingVertical: 15}]}>We use live weather data and your movement direction to calculate the movement speed which minimizes the exposure to rain. </Text>
-          : <Text style={[rryStyles.textSmall, {paddingVertical: 15, color: rryColors.white}]}>We use live weather data and your movement direction to calculate the movement speed which minimizes the exposure to rain. </Text>
-        }
-      </View>
-      <Cloud
-        text='Settings'
-        textStyle='textRegular'
-      />
-    <View style={{height: '25%'}}>
-        <View style={rryStyles.textContainer}>
-          { theme === 'light'
-            ? <Text style={[rryStyles.textSmall, {paddingVertical: 15}]}>Sound:</Text>
-            : <Text style={[rryStyles.textSmall, {paddingVertical: 15, color: rryColors.white}]}>Sound:</Text>
-          }
-        </View>
-        <View style={styles.settingContainer}>
-          <View style={{width: '40%'}}>
-            { theme === 'light'
-              ? <Text style={[rryStyles.textSmall, {paddingVertical: 15}]}>Always</Text>
-              : <Text style={[rryStyles.textSmall, {paddingVertical: 15, color: rryColors.white}]}>Always</Text>
-            }
-          </View>
-          <Switch
-            trackColor={{ false: rryColors.primaryLight, true: rryColors.primaryLight }}
-            thumbColor={soundIsEnabled ? rryColors.primary : rryColors.primary}
-            ios_backgroundColor={"white"}
-            onValueChange={() => {
-              saveSoundSettings(soundIsEnabled);
-              setSoundIsEnabled(previousState => !previousState);
-            }}
-            value={soundIsEnabled}
+      <View style={{justifyContent: 'flex-start', marginTop: 5}}>
+        <View style={{height: 80}}>
+          <Cloud
+            text='Rain saved:'
+            textStyle='textRegular'
+            mode='small'
           />
-          <View style={{alignSelf: 'flex-start', width: '40%'}}>
-            { theme === 'light'
-              ? <Text style={[rryStyles.textSmall, {paddingVertical: 15}]}>Only with Headphones</Text>
-              : <Text style={[rryStyles.textSmall, {paddingVertical: 15, color: rryColors.white}]}>Only with Headphones</Text>
-            }
-          </View>
         </View>
         <View style={rryStyles.textContainer}>
           { theme === 'light'
-            ? <Text style={[rryStyles.textSmall, {paddingVertical: 15}]}>Notifications:</Text>
-            : <Text style={[rryStyles.textSmall, {paddingVertical: 15, color: rryColors.white}]}>Notifications:</Text>
+            ? <Text style={[rryStyles.textSmall, {paddingVertical: 5}]}>We have saved you from n drops of rain up to now. That’s as much as n bathtubs!</Text>
+            : <Text style={[rryStyles.textSmall, {paddingVertical: 5, color: rryColors.white}]}>We have saved you from n drops of rain up to now. That’s as much as n bathtubs!</Text>
           }
         </View>
-        <View style={styles.settingContainer}>
-          <View style={{width: '40%'}}>
+        <View style={{height: 80}}>
+          <Cloud
+            text='How it works:'
+            textStyle='textRegular'
+            mode='small'
+          />
+        </View>
+        <View style={rryStyles.textContainer}>
+          { theme === 'light'
+            ? <Text style={[rryStyles.textSmall, {paddingVertical: 5}]}>We use live weather data and your movement direction to calculate the movement speed which minimizes the exposure to rain. </Text>
+            : <Text style={[rryStyles.textSmall, {paddingVertical: 5, color: rryColors.white}]}>We use live weather data and your movement direction to calculate the movement speed which minimizes the exposure to rain. </Text>
+          }
+        </View>
+        <View style={{height: 80}}>
+          <Cloud
+            text='Settings'
+            textStyle='textRegular'
+            mode='small'
+          />
+        </View>
+        <View style={{height: '20%', justifyContent: 'flex-start'}}>
+          <View style={rryStyles.textContainer}>
             { theme === 'light'
-              ? <Text style={[rryStyles.textSmall, {paddingVertical: 15}]}>Off</Text>
-              : <Text style={[rryStyles.textSmall, {paddingVertical: 15, color: rryColors.white}]}>Off</Text>
+              ? <Text style={[rryStyles.textSmall, {paddingTop: 15}]}>Sound:</Text>
+              : <Text style={[rryStyles.textSmall, {paddingTop: 15, color: rryColors.white}]}>Sound:</Text>
             }
           </View>
-          <Switch
-            trackColor={{ false: rryColors.primaryLight, true: rryColors.primaryLight }}
-            thumbColor={notificationIsEnabled ? rryColors.primary : rryColors.primary}
-            ios_backgroundColor={"white"}
-            onValueChange={() => {
-              saveNotificationSettings(notificationIsEnabled);
-              setNotificationIsEnabled(previousState => !previousState);
-            }}
-            value={notificationIsEnabled}
-          />
-          <View style={{alignSelf: 'flex-start', width: '40%'}}>
+          <View style={styles.settingContainer}>
+            <View style={{width: '40%'}}>
+              { theme === 'light'
+                ? <Text style={rryStyles.textSmall}>Always</Text>
+                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Always</Text>
+              }
+            </View>
+            <Switch
+              trackColor={{ false: rryColors.primaryLight, true: rryColors.primaryLight }}
+              thumbColor={soundIsEnabled ? rryColors.primary : rryColors.primary}
+              ios_backgroundColor={"white"}
+              onValueChange={() => {
+                saveSoundSettings(soundIsEnabled);
+                setSoundIsEnabled(previousState => !previousState);
+              }}
+              value={soundIsEnabled}
+            />
+            <View style={{alignSelf: 'flex-start', width: '40%'}}>
+              { theme === 'light'
+                ? <Text style={rryStyles.textSmall}>Only with Headphones</Text>
+                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Only with Headphones</Text>
+              }
+            </View>
+          </View>
+          <View style={rryStyles.textContainer}>
             { theme === 'light'
-              ? <Text style={[rryStyles.textSmall, {paddingVertical: 15}]}>Get Rain Notifications</Text>
-              : <Text style={[rryStyles.textSmall, {paddingVertical: 15, color: rryColors.white}]}>Get Rain Notifications</Text>
+              ? <Text style={[rryStyles.textSmall, {paddingTop: 10}]}>Notifications:</Text>
+              : <Text style={[rryStyles.textSmall, {paddingTop: 10, color: rryColors.white}]}>Notifications:</Text>
             }
+          </View>
+          <View style={styles.settingContainer}>
+            <View style={{width: '40%'}}>
+              { theme === 'light'
+                ? <Text style={rryStyles.textSmall}>Off</Text>
+                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Off</Text>
+              }
+            </View>
+            <Switch
+              trackColor={{ false: rryColors.primaryLight, true: rryColors.primaryLight }}
+              thumbColor={notificationIsEnabled ? rryColors.primary : rryColors.primary}
+              ios_backgroundColor={"white"}
+              onValueChange={() => {
+                saveNotificationSettings(notificationIsEnabled);
+                setNotificationIsEnabled(previousState => !previousState);
+              }}
+              value={notificationIsEnabled}
+            />
+            <View style={{alignSelf: 'flex-start', width: '40%'}}>
+              { theme === 'light'
+                ? <Text style={rryStyles.textSmall}>Get Rain Notifications</Text>
+                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Get Rain Notifications</Text>
+              }
+            </View>
           </View>
         </View>
       </View>
@@ -164,7 +175,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '90%',
     alignSelf: 'center',
-    top: -15
+    paddingTop: 10
   },
 });
 

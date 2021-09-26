@@ -5,10 +5,12 @@ import rryStyles from '../../assets/styles/rryStyles';
 import rryColors from '../../assets/styles/rryColors';
 
 const Cloud = (props) => {
+  console.log(props);
   return (
     <View style={[styles.container, {marginVertical: props.marginVertical}]}>
       <CloudSvg
-        width='100%'
+        width={props.mode === 'small' ? '80%' : '100%'}
+        height={props.mode === 'small' ? '80%' : '100%'}
       />
       <View style={styles.textContainer}>
         <Text style={[rryStyles.[props.textStyle], {color: rryColors.white}]}>{props.text}</Text>
@@ -21,8 +23,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 60
+    justifyContent: 'center'
   },
   textContainer: {
     position: 'absolute',

@@ -6,9 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "primaryColor": "#145066",
-    "androidNavigationBar": {
-      "visible": "immersive"
-    },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
