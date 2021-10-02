@@ -8,7 +8,8 @@ const Cloud = (props) => {
   return (
     <View style={[styles.container, {marginVertical: props.marginVertical}]}>
       <CloudSvg
-        width='100%'
+        width={'90%'}
+        height={'90%'}
       />
       <View style={styles.textContainer}>
         <Text style={[rryStyles.[props.textStyle], {color: rryColors.white}]}>{props.text}</Text>
@@ -21,8 +22,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 60
+    justifyContent: 'center'
   },
   textContainer: {
     position: 'absolute',

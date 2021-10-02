@@ -40,7 +40,7 @@ const HomeScreen = () => {
         text={"Optimal movement speed: 15 km/h"}
         textStyle='textRegular'
       />
-    <View style={rryStyles.textContainer}>
+      <View style={rryStyles.textContainer}>
         { theme === 'light'
           ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Current Movement Speed: 10 km/h</Text>
           : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>{"Current Movement Speed: 10 km/h"}</Text>
@@ -50,7 +50,7 @@ const HomeScreen = () => {
         text={"Faster!"}
         textStyle='textBig'
       />
-    <View style={styles.multiIconContainer}>
+      <View style={styles.multiIconContainer}>
         <View style={{paddingRight: 60}}>
           <TouchableOpacity
             onPress={() => {

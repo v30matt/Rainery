@@ -2,7 +2,8 @@ export default {
   // --- Rainery Colors ---
 
   primary: '#145066',
-  primaryLight: '#14506680',
+  primaryTranslucent: '#14506680',
+  primaryLight: '#5370A7',
 
   // --- Themed Background Colors
 
