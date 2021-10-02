@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StatusBar } from 'react-native';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
@@ -24,6 +24,9 @@ function App() {
   } else {
     return (
       <SafeAreaProvider>
+        <StatusBar
+          barStyle={'light-content'}
+        />
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen

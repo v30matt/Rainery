@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Appearance, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import Cloud from '../components/Cloud';
 import TopCloud from '../components/TopCloud';
 import VolumeXSvg from '../../assets/svg/volume-x.svg';
@@ -15,6 +16,16 @@ const HomeScreen = () => {
 
   const [theme, setTheme] = useState(startupTheme())
   const [volume, setVolume] = useState('off')
+
+  const changeTheme = () => {
+    if (theme === 'light') {
+      setTheme('dark')
+      changeNavigationBarColor(rryColors.dark, false, false)
+    } else {
+      setTheme('light')
+      changeNavigationBarColor(rryColors.light, true, false)
+    }
+  }
 
   return (
     <View style={{flex: 1, backgroundColor: rryColors.[theme]}}>
@@ -76,7 +87,7 @@ const HomeScreen = () => {
         <View style={{paddingLeft: 60}}>
           <TouchableOpacity
             onPress={() => {
-              setTheme(theme === 'dark' ? 'light' : 'dark')
+              changeTheme()
             }}
           >
             { theme === 'dark'
