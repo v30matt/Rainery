@@ -8,8 +8,8 @@ const Cloud = (props) => {
   return (
     <View style={[styles.container, {marginVertical: props.marginVertical}]}>
       <CloudSvg
-        width={props.mode === 'small' ? '80%' : '100%'}
-        height={props.mode === 'small' ? '80%' : '100%'}
+        width={'90%'}
+        height={'90%'}
       />
       <View style={styles.textContainer}>
         <Text style={[rryStyles.[props.textStyle], {color: rryColors.white}]}>{props.text}</Text>

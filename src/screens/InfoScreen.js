@@ -26,11 +26,10 @@ const InfoScreen = ({ route, navigation }) => {
         onXButtonPress={() => onXButtonPress(navigation)}
       />
       <View style={{justifyContent: 'flex-start', marginTop: 5}}>
-        <View style={{height: 80}}>
+        <View style={{height: 89, marginVertical: 10}}>
           <Cloud
             text='Rain saved:'
             textStyle='textRegular'
-            mode='small'
           />
         </View>
         <View style={rryStyles.textContainer}>
@@ -39,11 +38,10 @@ const InfoScreen = ({ route, navigation }) => {
             : <Text style={[rryStyles.textSmall, {paddingVertical: 5, color: rryColors.white}]}>We have saved you from n drops of rain up to now. That’s as much as n bathtubs!</Text>
           }
         </View>
-        <View style={{height: 80}}>
+        <View style={{height: 89, marginVertical: 10}}>
           <Cloud
             text='How it works:'
             textStyle='textRegular'
-            mode='small'
           />
         </View>
         <View style={rryStyles.textContainer}>
@@ -52,11 +50,10 @@ const InfoScreen = ({ route, navigation }) => {
             : <Text style={[rryStyles.textSmall, {paddingVertical: 5, color: rryColors.white}]}>We use live weather data and your movement direction to calculate the movement speed which minimizes the exposure to rain. </Text>
           }
         </View>
-        <View style={{height: 80}}>
+        <View style={{height: 89, marginVertical: 10}}>
           <Cloud
             text='Settings'
             textStyle='textRegular'
-            mode='small'
           />
         </View>
         <View style={{height: '20%', justifyContent: 'flex-start'}}>
@@ -74,9 +71,9 @@ const InfoScreen = ({ route, navigation }) => {
               }
             </View>
             <Switch
-              trackColor={{ false: rryColors.primaryLight, true: rryColors.primaryLight }}
-              thumbColor={soundIsEnabled ? rryColors.primary : rryColors.primary}
-              ios_backgroundColor={"white"}
+              trackColor={{ false: rryColors.primaryTranslucent, true: rryColors.primaryTranslucent }}
+              thumbColor={theme === 'light' ? rryColors.primary : rryColors.primaryLight}
+              ios_backgroundColor={theme === 'light' ? rryColors.light : rryColors.dark}
               onValueChange={() => {
                 saveSoundSettings(soundIsEnabled);
                 setSoundIsEnabled(previousState => !previousState);
@@ -104,9 +101,9 @@ const InfoScreen = ({ route, navigation }) => {
               }
             </View>
             <Switch
-              trackColor={{ false: rryColors.primaryLight, true: rryColors.primaryLight }}
-              thumbColor={notificationIsEnabled ? rryColors.primary : rryColors.primary}
-              ios_backgroundColor={"white"}
+              trackColor={{ false: rryColors.primaryTranslucent, true: rryColors.primaryTranslucent }}
+              thumbColor={theme === 'light' ? rryColors.primary : rryColors.primaryLight}
+              ios_backgroundColor={theme === 'light' ? rryColors.light : rryColors.dark}
               onValueChange={() => {
                 saveNotificationSettings(notificationIsEnabled);
                 setNotificationIsEnabled(previousState => !previousState);
