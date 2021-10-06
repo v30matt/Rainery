@@ -26,14 +26,51 @@ import DarkThemeIconSvg from '../../assets/svg/moon.svg';
 import rryStyles from '../../assets/styles/rryStyles';
 import rryColors from '../../assets/styles/rryColors';
 
+var Sound = require('react-native-sound');
+
+// -- react-native-sound logic --
+Sound.setCategory('Playback');
+
+var speedUp = new Sound('speed_up.mp3', Sound.MAIN_BUNDLE, (error) => {
+  if (error) {
+    console.log('failed to load the sound', error);
+    return;
+  }
+  // loaded successfully
+  console.log('duration in seconds: ' + speedUp.getDuration() + 'number of channels: ' + speedUp.getNumberOfChannels());
+});
+
+
+var slowDown = new Sound('slow_down.mp3', Sound.MAIN_BUNDLE, (error) => {
+  if (error) {
+    console.log('failed to load the sound', error);
+    return;
+  }
+  // loaded successfully
+  console.log('duration in seconds: ' + slowDown.getDuration() + 'number of channels: ' + slowDown.getNumberOfChannels());
+});
+
+var keepGoing = new Sound('keep_up_this_speed.mp3', Sound.MAIN_BUNDLE, (error) => {
+  if (error) {
+    console.log('failed to load the sound', error);
+    return;
+  }
+  // loaded successfully
+  console.log('duration in seconds: ' + keepGoing.getDuration() + 'number of channels: ' + keepGoing.getNumberOfChannels());
+});
+
+// -- react-native-sound logic END --
 
 const HomeScreen = () => {
 
   const appState = useRef(AppState.currentState);
 
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
-  const [theme, setTheme] = useState(startupTheme())
-  const [volume, setVolume] = useState('off')
+  const [theme, setTheme] = useState(startupTheme());
+  const [volume, setVolume] = useState('off');
+  const [optimalSpeed, setOptimalSpeed] = useState(3.2);
+  const [speedChange, setSpeedChange] = useState(undefined);
+  const [playingSound, setPlayingSound] = useState(false)
 
   // -- react-native-geolocation-service logic --
   const [forceLocation, setForceLocation] = useState(false);
@@ -175,6 +212,10 @@ const HomeScreen = () => {
       (position) => {
         position.coords.cardinal = getCardinal(position.coords)
         setLocation(position);
+        (position.coords.speed < optimalSpeed - 0.5) ? setSpeedChange('speedUp')
+        : (position.coords.speed > optimalSpeed + 0.5) ? setSpeedChange('slowDown')
+          : setSpeedChange('keepGoing');
+
       },
       (error) => {
         setLocation(null);
@@ -272,6 +313,48 @@ const HomeScreen = () => {
     };
   }, []);
 
+  // play sound when speedChange state changes
+  useEffect(() => {
+    if (speedChange === 'speedUp') {
+      slowDown.stop()
+      keepGoing.stop()
+      setPlayingSound(true)
+      speedUp.play((success) => {
+        if (success) {
+          setPlayingSound(false)
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+    } else if (speedChange === 'slowDown') {
+      speedUp.stop()
+      keepGoing.stop()
+      setPlayingSound(true)
+      slowDown.play((success) => {
+        if (success) {
+          setPlayingSound(false)
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+    } else if (speedChange === 'keepGoing') {
+      slowDown.stop()
+      speedUp.stop()
+      setPlayingSound(true)
+      keepGoing.play((success) => {
+        if (success) {
+          setPlayingSound(false)
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+    } else {
+      slowDown.stop()
+      keepGoing.stop()
+      speedUp.stop()
+    }
+  }, [speedChange])
+
 
   const changeTheme = () => {
     if (theme === 'light') {
@@ -300,11 +383,11 @@ const HomeScreen = () => {
         }
         { theme === 'light'
           ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Movement direction: {location?.coords?.cardinal ? location?.coords?.cardinal : 'Unavailable'}</Text>
-          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Movement direction: Northwest</Text>
+          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Movement direction: {location?.coords?.cardinal ? location?.coords?.cardinal : 'Unavailable'}</Text>
         }
       </View>
       <Cloud
-        text={"Optimal movement speed: 15 km/h"}
+        text={`Optimal movement speed: ${optimalSpeed} m/s`}
         textStyle='textRegular'
       />
       <View style={rryStyles.textContainer}>
@@ -314,7 +397,12 @@ const HomeScreen = () => {
         }
       </View>
       <Cloud
-        text={"Faster!"}
+        text={
+          (speedChange === 'speedUp') ? 'Faster!'
+          : (speedChange === 'slowDown') ? 'Slow Down!'
+            : (speedChange === 'keepGoing') ? 'Keep it up!'
+              : 'unavailable'
+        }
         textStyle='textBig'
       />
       <View style={styles.multiIconContainer}>
