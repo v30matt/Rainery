@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import Geolocation from 'react-native-geolocation-service';
 import VIForegroundService from '@voximplant/react-native-foreground-service';
+import HeadphoneDetection from 'react-native-headphone-detection';
 import Cloud from '../components/Cloud';
 import TopCloud from '../components/TopCloud';
 import VolumeXSvg from '../../assets/svg/volume-x.svg';
@@ -68,6 +69,7 @@ const HomeScreen = () => {
   const [speedChange, setSpeedChange] = useState(undefined);
   const [playingSound, setPlayingSound] = useState(false)
   const [weather, setWeather] = useState(null)
+  const [soundSettings, setSoundSettings] = useState(null)
 
   // -- react-native-geolocation-service logic --
   const [forceLocation, setForceLocation] = useState(false);
@@ -221,7 +223,7 @@ const HomeScreen = () => {
       {
         accuracy: {
           android: 'high',
-          ios: 'best',
+          ios: 'nearestTenMeters',
         },
         enableHighAccuracy: highAccuracy,
         distanceFilter: 0,
@@ -405,6 +407,63 @@ const HomeScreen = () => {
     }
   }
 
+  useEffect(() => {
+    async function getSoundSettingsFromAsyncStorage () {
+      try {
+        const jsonValue = await AsyncStorage.getItem('@soundIsEnabled')
+        const soundSettingsRetrieved = jsonValue != null ? JSON.parse(jsonValue) : false
+        await setSoundSettings(soundSettingsRetrieved)
+      } catch (e) {
+          console.log(e);
+      }
+    }
+    getSoundSettingsFromAsyncStorage()
+  }, [])
+
+  useEffect(() => {
+    if (soundSettings === false) {
+      getAudioDeviceConnected()
+    } else if (soundSettings === true) {
+      setVolume('on')
+    }
+  }, [soundSettings])
+
+  const getAudioDeviceConnected = async () => {
+    console.log("Hello?");
+    const audioDevicesConnected = await HeadphoneDetection.isAudioDeviceConnected()
+    console.log(audioDevicesConnected);
+    if (audioDevicesConnected.audioJack || audioDevicesConnected.bluetooth) {
+      setVolume('on')
+    } else {
+      setVolume('off')
+    }
+  }
+
+  useEffect(() => {
+    async function getAccuracySettingsFromAsyncStorage () {
+      try {
+        const jsonValue = await AsyncStorage.getItem('@accuracyIsEnabled')
+        const accuracySettingsRetrieved = jsonValue != null ? JSON.parse(jsonValue) : true
+        if (accuracySettingsRetrieved === true) {
+          setHighAccuracy(true)
+        } else {
+          setHighAccuracy(false)
+        }
+      } catch (e) {
+          console.log(e);
+      }
+    }
+    getAccuracySettingsFromAsyncStorage()
+  }, [])
+
+  useEffect(() => {
+    async function restartLocationTracking () {
+      await removeLocationUpdates()
+      getLocationUpdates()
+    }
+    restartLocationTracking()
+  }, [highAccuracy])
+
   return (
     <View style={{flex: 1, backgroundColor: rryColors.[theme]}}>
       <StatusBar translucent backgroundColor="transparent" />
@@ -440,7 +499,7 @@ const HomeScreen = () => {
           (speedChange === 'speedUp') ? 'Faster!'
           : (speedChange === 'slowDown') ? 'Slow Down!'
             : (speedChange === 'keepGoing') ? 'Keep it up!'
-              : 'unavailable'
+              : 'Unavailable'
         }
         textStyle='textBig'
       />
