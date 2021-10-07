@@ -26,6 +26,8 @@ import DarkThemeIconSvg from '../../assets/svg/moon.svg';
 import rryStyles from '../../assets/styles/rryStyles';
 import rryColors from '../../assets/styles/rryColors';
 
+import openweathermap from '../api/openweathermap';
+
 var Sound = require('react-native-sound');
 
 // -- react-native-sound logic --
@@ -36,8 +38,6 @@ var speedUp = new Sound('speed_up.mp3', Sound.MAIN_BUNDLE, (error) => {
     console.log('failed to load the sound', error);
     return;
   }
-  // loaded successfully
-  console.log('duration in seconds: ' + speedUp.getDuration() + 'number of channels: ' + speedUp.getNumberOfChannels());
 });
 
 
@@ -46,8 +46,6 @@ var slowDown = new Sound('slow_down.mp3', Sound.MAIN_BUNDLE, (error) => {
     console.log('failed to load the sound', error);
     return;
   }
-  // loaded successfully
-  console.log('duration in seconds: ' + slowDown.getDuration() + 'number of channels: ' + slowDown.getNumberOfChannels());
 });
 
 var keepGoing = new Sound('keep_up_this_speed.mp3', Sound.MAIN_BUNDLE, (error) => {
@@ -55,8 +53,6 @@ var keepGoing = new Sound('keep_up_this_speed.mp3', Sound.MAIN_BUNDLE, (error) =
     console.log('failed to load the sound', error);
     return;
   }
-  // loaded successfully
-  console.log('duration in seconds: ' + keepGoing.getDuration() + 'number of channels: ' + keepGoing.getNumberOfChannels());
 });
 
 // -- react-native-sound logic END --
@@ -71,6 +67,7 @@ const HomeScreen = () => {
   const [optimalSpeed, setOptimalSpeed] = useState(3.2);
   const [speedChange, setSpeedChange] = useState(undefined);
   const [playingSound, setPlayingSound] = useState(false)
+  const [weather, setWeather] = useState(null)
 
   // -- react-native-geolocation-service logic --
   const [forceLocation, setForceLocation] = useState(false);
@@ -210,7 +207,7 @@ const HomeScreen = () => {
 
     watchId.current = Geolocation.watchPosition(
       (position) => {
-        position.coords.cardinal = getCardinal(position.coords)
+        position.coords.cardinal = getCardinal(position?.coords?.heading)
         setLocation(position);
         (position.coords.speed < optimalSpeed - 0.5) ? setSpeedChange('speedUp')
         : (position.coords.speed > optimalSpeed + 0.5) ? setSpeedChange('slowDown')
@@ -271,20 +268,24 @@ const HomeScreen = () => {
     VIForegroundService.stopService().catch((err) => err);
   }, []);
 
-  const getCardinal = (position) => {
-    const degreePerDirection = 360 / 8;
+  const getCardinal = (direction) => {
+    if (direction) {
+      const degreePerDirection = 360 / 8;
 
-    const offsetAngle = position?.heading + degreePerDirection / 2;
+      const offsetAngle = direction + degreePerDirection / 2;
 
-    return (offsetAngle >= 0 * degreePerDirection && offsetAngle < 1 * degreePerDirection) ? "North"
-    : (offsetAngle >= 1 * degreePerDirection && offsetAngle < 2 * degreePerDirection) ? "Northeast"
-      : (offsetAngle >= 2 * degreePerDirection && offsetAngle < 3 * degreePerDirection) ? "East"
-        : (offsetAngle >= 3 * degreePerDirection && offsetAngle < 4 * degreePerDirection) ? "Southeast"
-          : (offsetAngle >= 4 * degreePerDirection && offsetAngle < 5 * degreePerDirection) ? "South"
-            : (offsetAngle >= 5 * degreePerDirection && offsetAngle < 6 * degreePerDirection) ? "Southwest"
-              : (offsetAngle >= 6 * degreePerDirection && offsetAngle < 7 * degreePerDirection) ? "West"
-                :(offsetAngle >= 8 * degreePerDirection && offsetAngle < 9 * degreePerDirection) ? "North"
-                  : "Northwest";
+      return (offsetAngle >= 0 * degreePerDirection && offsetAngle < 1 * degreePerDirection) ? "North"
+      : (offsetAngle >= 1 * degreePerDirection && offsetAngle < 2 * degreePerDirection) ? "Northeast"
+        : (offsetAngle >= 2 * degreePerDirection && offsetAngle < 3 * degreePerDirection) ? "East"
+          : (offsetAngle >= 3 * degreePerDirection && offsetAngle < 4 * degreePerDirection) ? "Southeast"
+            : (offsetAngle >= 4 * degreePerDirection && offsetAngle < 5 * degreePerDirection) ? "South"
+              : (offsetAngle >= 5 * degreePerDirection && offsetAngle < 6 * degreePerDirection) ? "Southwest"
+                : (offsetAngle >= 6 * degreePerDirection && offsetAngle < 7 * degreePerDirection) ? "West"
+                  :(offsetAngle >= 8 * degreePerDirection && offsetAngle < 9 * degreePerDirection) ? "North"
+                    : "Northwest";
+    } else {
+      return
+    }
   }
 
   // -- react-native-geolocation-service logic END --
@@ -315,7 +316,7 @@ const HomeScreen = () => {
 
   // play sound when speedChange state changes
   useEffect(() => {
-    if (speedChange === 'speedUp') {
+    if (speedChange === 'speedUp' && volume === 'on') {
       slowDown.stop()
       keepGoing.stop()
       setPlayingSound(true)
@@ -326,7 +327,7 @@ const HomeScreen = () => {
           console.log('playback failed due to audio decoding errors');
         }
       });
-    } else if (speedChange === 'slowDown') {
+    } else if (speedChange === 'slowDown' && volume === 'on') {
       speedUp.stop()
       keepGoing.stop()
       setPlayingSound(true)
@@ -337,7 +338,7 @@ const HomeScreen = () => {
           console.log('playback failed due to audio decoding errors');
         }
       });
-    } else if (speedChange === 'keepGoing') {
+    } else if (speedChange === 'keepGoing' && volume === 'on') {
       slowDown.stop()
       speedUp.stop()
       setPlayingSound(true)
@@ -353,8 +354,46 @@ const HomeScreen = () => {
       keepGoing.stop()
       speedUp.stop()
     }
-  }, [speedChange])
+  }, [speedChange, volume])
 
+  // -- weather logic --
+
+  const searchApi = async (lat, lon) => {
+    try {
+      const response = await openweathermap.get('/weather', {
+        params: {
+          lat: lat,
+          lon: lon,
+          appid: '1699b7b7eb29a5b8eb578f5a950382c9'
+        }
+      });
+      const APIWeather = response.data
+      APIWeather.timestamp = Date.now()
+      APIWeather.wind.direction = getCardinal(APIWeather?.wind?.deg)
+      setWeather(APIWeather)
+      console.log(APIWeather);
+    } catch (err) {
+      Alert.alert('Loading Error', 'We encountered an error getting the weather data, please make sure you are connected to the internet and try again');
+      console.log('Error with API request: ', err);
+    };
+  };
+
+  useEffect(() => {
+    const HALFHOUR = 1000 * 30 * 60
+    const halfHourAgo = Date.now() - HALFHOUR
+    if (!weather && location) {
+      const lat = location?.coords?.latitude
+      const lon = location?.coords?.longitude
+      searchApi(lat, lon)
+    } else if (weather && weather.timestamp < halfHourAgo && location) {
+      const lat = location?.coords?.latitude
+      const lon = location?.coords?.longitude
+      searchApi(lat, lon)
+    } else {
+      return
+    }
+  }, [location])
+  // -- weather logic END --
 
   const changeTheme = () => {
     if (theme === 'light') {
@@ -378,8 +417,8 @@ const HomeScreen = () => {
       />
     <View style={rryStyles.textContainer}>
         { theme === 'light'
-          ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Wind direction: Southwest</Text>
-          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Wind direction: Southwest</Text>
+          ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Wind direction: {weather?.wind?.direction ? weather?.wind?.direction : 'Unavailable'}</Text>
+          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Wind direction: {weather?.wind?.direction ? weather?.wind?.direction : 'Unavailable'}</Text>
         }
         { theme === 'light'
           ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Movement direction: {location?.coords?.cardinal ? location?.coords?.cardinal : 'Unavailable'}</Text>
