@@ -11,6 +11,7 @@
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.0.5",
     "@voximplant/react-native-foreground-service": "^2.0.0",
+    "axios": "^0.22.0",
     "expo": "~42.0.1",
     "expo-app-loading": "^1.1.2",
     "expo-cli": "^4.12.0",
