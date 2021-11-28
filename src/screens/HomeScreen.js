@@ -29,6 +29,8 @@ import rryColors from '../../assets/styles/rryColors';
 
 import openweathermap from '../api/openweathermap';
 
+import model from '../components/Model'
+
 var Sound = require('react-native-sound');
 
 // -- react-native-sound logic --
@@ -65,7 +67,7 @@ const HomeScreen = () => {
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [theme, setTheme] = useState(startupTheme());
   const [volume, setVolume] = useState('off');
-  const [optimalSpeed, setOptimalSpeed] = useState(3.2);
+  const [optimalSpeed, setOptimalSpeed] = useState("Unavailable");
   const [speedChange, setSpeedChange] = useState(undefined);
   const [playingSound, setPlayingSound] = useState(false)
   const [weather, setWeather] = useState(null)
@@ -463,6 +465,14 @@ const HomeScreen = () => {
     }
     restartLocationTracking()
   }, [highAccuracy])
+
+  useEffect(() => {
+    if (weather?.wind?.speed && weather?.wind?.deg && location?.coords?.heading) {
+      setOptimalSpeed(model(weather?.wind?.speed, weather?.wind?.deg, location?.coords?.heading))
+    } else {
+      setOptimalSpeed('Unavailable')
+    }
+  }, [location?.coords?.heading, weather?.wind?.deg, weather?.wind?.speed])
 
   return (
     <View style={{flex: 1, backgroundColor: rryColors.[theme]}}>
