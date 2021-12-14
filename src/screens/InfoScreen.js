@@ -11,10 +11,10 @@ const InfoScreen = ({ route, navigation }) => {
   const { propsTheme } = route.params;
   const [theme, setTheme] = useState(propsTheme)
   const [soundIsEnabled, setSoundIsEnabled] = useState(false)
-  const [notificationIsEnabled, setNotificationIsEnabled] = useState(false)
+  const [accuracyIsEnabled, setAccuracyIsEnabled] = useState(true)
   useEffect(() => {
       getSoundSettings().then(soundSettings => setSoundIsEnabled(soundSettings));
-      getNotificationSettings().then(notificationSettings => setNotificationIsEnabled(notificationSettings));
+      getAccuracySettings().then(accuracySettings => setAccuracyIsEnabled(accuracySettings));
     }, [])
   return (
     <SafeAreaView style={{flex: 1, paddingBottom: 20, backgroundColor: rryColors.[theme]}} edges={['bottom']}>
@@ -66,8 +66,8 @@ const InfoScreen = ({ route, navigation }) => {
           <View style={styles.settingContainer}>
             <View style={{width: '40%'}}>
               { theme === 'light'
-                ? <Text style={rryStyles.textSmall}>Always</Text>
-                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Always</Text>
+                ? <Text style={rryStyles.textSmall}>Only with Headphones</Text>
+                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Only with Headphones</Text>
               }
             </View>
             <Switch
@@ -82,22 +82,22 @@ const InfoScreen = ({ route, navigation }) => {
             />
             <View style={{alignSelf: 'flex-start', width: '40%'}}>
               { theme === 'light'
-                ? <Text style={rryStyles.textSmall}>Only with Headphones</Text>
-                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Only with Headphones</Text>
+                ? <Text style={rryStyles.textSmall}>Always</Text>
+                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Always</Text>
               }
             </View>
           </View>
           <View style={rryStyles.textContainer}>
             { theme === 'light'
-              ? <Text style={[rryStyles.textSmall, {paddingTop: 10}]}>Notifications:</Text>
-              : <Text style={[rryStyles.textSmall, {paddingTop: 10, color: rryColors.white}]}>Notifications:</Text>
+              ? <Text style={[rryStyles.textSmall, {paddingTop: 10}]}>Location Accuracy:</Text>
+              : <Text style={[rryStyles.textSmall, {paddingTop: 10, color: rryColors.white}]}>Location Accuracy:</Text>
             }
           </View>
           <View style={styles.settingContainer}>
-            <View style={{width: '40%'}}>
+            <View style={{width: '35%'}}>
               { theme === 'light'
-                ? <Text style={rryStyles.textSmall}>Off</Text>
-                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Off</Text>
+                ? <Text style={rryStyles.textSmall}>Battery Optimized</Text>
+                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Battery Optimized</Text>
               }
             </View>
             <Switch
@@ -105,15 +105,15 @@ const InfoScreen = ({ route, navigation }) => {
               thumbColor={theme === 'light' ? rryColors.primary : rryColors.primaryLight}
               ios_backgroundColor={theme === 'light' ? rryColors.light : rryColors.dark}
               onValueChange={() => {
-                saveNotificationSettings(notificationIsEnabled);
-                setNotificationIsEnabled(previousState => !previousState);
+                saveAccuracySettings(accuracyIsEnabled);
+                setAccuracyIsEnabled(previousState => !previousState);
               }}
-              value={notificationIsEnabled}
+              value={accuracyIsEnabled}
             />
             <View style={{alignSelf: 'flex-start', width: '40%'}}>
               { theme === 'light'
-                ? <Text style={rryStyles.textSmall}>Get Rain Notifications</Text>
-                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Get Rain Notifications</Text>
+                ? <Text style={rryStyles.textSmall}>Accuracy Optimized</Text>
+                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Accuracy Optimized</Text>
               }
             </View>
           </View>
@@ -132,9 +132,9 @@ const saveSoundSettings = async (soundIsEnabled) => {
   }
 }
 
-const saveNotificationSettings = async (notificationIsEnabled) => {
+const saveAccuracySettings = async (accuracyIsEnabled) => {
   try {
-    await AsyncStorage.setItem('@notificationIsEnabled', JSON.stringify(!notificationIsEnabled))
+    await AsyncStorage.setItem('@accuracyIsEnabled', JSON.stringify(!accuracyIsEnabled))
   } catch (e) {
     // saving error
     console.log(e);
@@ -151,11 +151,11 @@ const getSoundSettings = async () => {
   }
 }
 
-const getNotificationSettings = async () => {
+const getAccuracySettings = async () => {
   try {
-    const jsonValue = await AsyncStorage.getItem('@notificationIsEnabled')
-    const notificationSettings = jsonValue != null ? JSON.parse(jsonValue) : false;
-    return notificationSettings;
+    const jsonValue = await AsyncStorage.getItem('@accuracyIsEnabled')
+    const accuracySettings = jsonValue != null ? JSON.parse(jsonValue) : true;
+    return accuracySettings;
   } catch (e) {
     console.log(e);
   }
