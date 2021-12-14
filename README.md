@@ -1,7 +1,7 @@
 # Rainery
 
 Rainery is a React Native based mobile application which reduces rain exposure of users by using movement speed and meteorological data.
-![Rainery](assets/images/rainery_mockup_mixed)
+![Rainery](assets/images/rainery_mockup_mixed.png)
 ## Installation
 1. Install React Native CLI
 
