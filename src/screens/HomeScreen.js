@@ -303,7 +303,6 @@ const HomeScreen = () => {
         nextAppState === "background"
       ) {
         removeLocationUpdates()
-        setIsMoving(false)
       }
 
       appState.current = nextAppState;
