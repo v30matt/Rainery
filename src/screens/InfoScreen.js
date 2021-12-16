@@ -12,9 +12,11 @@ const InfoScreen = ({ route, navigation }) => {
   const [theme, setTheme] = useState(propsTheme)
   const [soundIsEnabled, setSoundIsEnabled] = useState(false)
   const [accuracyIsEnabled, setAccuracyIsEnabled] = useState(true)
+  const [secondsMoving, setSecondsMoving] = useState(0)
   useEffect(() => {
       getSoundSettings().then(soundSettings => setSoundIsEnabled(soundSettings));
       getAccuracySettings().then(accuracySettings => setAccuracyIsEnabled(accuracySettings));
+      getSecondsMoving().then(secondsMovingRetrieved => setSecondsMoving(secondsMovingRetrieved))
     }, [])
   return (
     <SafeAreaView style={{flex: 1, paddingBottom: 20, backgroundColor: rryColors.[theme]}} edges={['bottom']}>
@@ -34,8 +36,8 @@ const InfoScreen = ({ route, navigation }) => {
         </View>
         <View style={rryStyles.textContainer}>
           { theme === 'light'
-            ? <Text style={[rryStyles.textSmall, {paddingVertical: 5}]}>We have saved you from n drops of rain up to now. That’s as much as n bathtubs!</Text>
-            : <Text style={[rryStyles.textSmall, {paddingVertical: 5, color: rryColors.white}]}>We have saved you from n drops of rain up to now. That’s as much as n bathtubs!</Text>
+            ? <Text style={[rryStyles.textSmall, {paddingVertical: 5}]}>{`We have saved you from ${secondsMoving * 15} drops of rain up to now. That’s as much as ${Math.round(secondsMoving / 1800) / 100} bathtubs!`}</Text>
+            : <Text style={[rryStyles.textSmall, {paddingVertical: 5, color: rryColors.white}]}>{`We have saved you from ${secondsMoving * 15} drops of rain up to now. That’s as much as ${Math.round(secondsMoving / 1800) / 100} bathtubs!`}</Text>
           }
         </View>
         <View style={{height: 89, marginVertical: 10}}>
@@ -156,6 +158,16 @@ const getAccuracySettings = async () => {
     const jsonValue = await AsyncStorage.getItem('@accuracyIsEnabled')
     const accuracySettings = jsonValue != null ? JSON.parse(jsonValue) : true;
     return accuracySettings;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+const getSecondsMoving = async () => {
+  try {
+    const secondsMovingString = await AsyncStorage.getItem('@secondsMoving')
+    const secondsMovingRetrieved = parseInt(secondsMovingString)
+    return secondsMovingRetrieved;
   } catch (e) {
     console.log(e);
   }

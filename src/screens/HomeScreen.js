@@ -72,6 +72,7 @@ const HomeScreen = () => {
   const [playingSound, setPlayingSound] = useState(false)
   const [weather, setWeather] = useState(null)
   const [soundSettings, setSoundSettings] = useState(null)
+  const [secondsMoving, setSecondsMoving] = useState(0)
 
   // -- react-native-geolocation-service logic --
   const [forceLocation, setForceLocation] = useState(false);
@@ -213,10 +214,6 @@ const HomeScreen = () => {
       (position) => {
         position.coords.cardinal = getCardinal(position?.coords?.heading)
         setLocation(position);
-        (position.coords.speed < optimalSpeed - 0.5) ? setSpeedChange('speedUp')
-        : (position.coords.speed > optimalSpeed + 0.5) ? setSpeedChange('slowDown')
-          : setSpeedChange('keepGoing');
-
       },
       (error) => {
         setLocation(null);
@@ -306,6 +303,7 @@ const HomeScreen = () => {
         nextAppState === "background"
       ) {
         removeLocationUpdates()
+        setIsMoving(false)
       }
 
       appState.current = nextAppState;
@@ -359,6 +357,13 @@ const HomeScreen = () => {
       speedUp.stop()
     }
   }, [speedChange, volume])
+
+  useEffect(() => {
+    (optimalSpeed === false) ? setSpeedChange('afayc')
+    : (location?.coords?.speed < optimalSpeed - 0.5) ? setSpeedChange('speedUp')
+      : (location?.coords?.speed > optimalSpeed + 0.5) ? setSpeedChange('slowDown')
+        : setSpeedChange('keepGoing');
+  }, [location, optimalSpeed])
 
   // -- weather logic --
 
@@ -431,7 +436,6 @@ const HomeScreen = () => {
   }, [soundSettings])
 
   const getAudioDeviceConnected = async () => {
-    console.log("Hello?");
     const audioDevicesConnected = await HeadphoneDetection.isAudioDeviceConnected()
     console.log(audioDevicesConnected);
     if (audioDevicesConnected.audioJack || audioDevicesConnected.bluetooth) {
@@ -474,6 +478,24 @@ const HomeScreen = () => {
     }
   }, [location?.coords?.heading, weather?.wind?.deg, weather?.wind?.speed])
 
+  // logic for time spent moving
+
+  useEffect(() => {
+    if (location?.coords?.speed > 0.3) {
+      setSecondsMoving(secondsMoving + 1)
+      saveSecondsMoving(secondsMoving)
+    }
+  }, [location])
+
+  const saveSecondsMoving = async (secondsMoving) => {
+    try {
+      await AsyncStorage.setItem('@secondsMoving', secondsMoving.toString())
+    } catch (e) {
+      // saving error
+      console.log(e);
+    }
+  }
+
   return (
     <View style={{flex: 1, backgroundColor: rryColors.[theme]}}>
       <StatusBar translucent backgroundColor="transparent" />
@@ -495,7 +517,7 @@ const HomeScreen = () => {
         }
       </View>
       <Cloud
-        text={`Optimal movement speed: ${optimalSpeed} m/s`}
+        text={optimalSpeed === false ? 'Optimal movement speed: Unavailable' : `Optimal movement speed: ${optimalSpeed} m/s`}
         textStyle='textRegular'
       />
       <View style={rryStyles.textContainer}>
@@ -509,7 +531,8 @@ const HomeScreen = () => {
           (speedChange === 'speedUp') ? 'Faster!'
           : (speedChange === 'slowDown') ? 'Slow Down!'
             : (speedChange === 'keepGoing') ? 'Keep it up!'
-              : 'Unavailable'
+              : (speedChange === 'afayc') ? 'As fast as you can!'
+                : 'Unavailable'
         }
         textStyle='textBig'
       />
