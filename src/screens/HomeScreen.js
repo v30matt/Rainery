@@ -58,6 +58,13 @@ var keepGoing = new Sound('keep_up_this_speed.mp3', Sound.MAIN_BUNDLE, (error) =
   }
 });
 
+var afayc = new Sound('afayc.mp3', Sound.MAIN_BUNDLE, (error) => {
+  if (error) {
+    console.log('failed to load the sound', error);
+    return;
+  }
+});
+
 // -- react-native-sound logic END --
 
 const HomeScreen = () => {
@@ -320,6 +327,7 @@ const HomeScreen = () => {
     if (speedChange === 'speedUp' && volume === 'on') {
       slowDown.stop()
       keepGoing.stop()
+      afayc.stop()
       setPlayingSound(true)
       speedUp.play((success) => {
         if (success) {
@@ -331,6 +339,7 @@ const HomeScreen = () => {
     } else if (speedChange === 'slowDown' && volume === 'on') {
       speedUp.stop()
       keepGoing.stop()
+      afayc.stop()
       setPlayingSound(true)
       slowDown.play((success) => {
         if (success) {
@@ -342,8 +351,21 @@ const HomeScreen = () => {
     } else if (speedChange === 'keepGoing' && volume === 'on') {
       slowDown.stop()
       speedUp.stop()
+      afayc.stop()
       setPlayingSound(true)
       keepGoing.play((success) => {
+        if (success) {
+          setPlayingSound(false)
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+    } else if (speedChange === 'afayc' && volume === 'on') {
+      slowDown.stop()
+      speedUp.stop()
+      keepGoing.stop()
+      setPlayingSound(true)
+      afayc.play((success) => {
         if (success) {
           setPlayingSound(false)
         } else {
@@ -354,6 +376,7 @@ const HomeScreen = () => {
       slowDown.stop()
       keepGoing.stop()
       speedUp.stop()
+      afayc.stop()
     }
   }, [speedChange, volume])
 
@@ -473,7 +496,7 @@ const HomeScreen = () => {
     if (weather?.wind?.speed && weather?.wind?.deg && location?.coords?.heading) {
       setOptimalSpeed(model(weather?.wind?.speed, weather?.wind?.deg, location?.coords?.heading))
     } else {
-      setOptimalSpeed('Unavailable')
+      setOptimalSpeed(false)
     }
   }, [location?.coords?.heading, weather?.wind?.deg, weather?.wind?.speed])
 
@@ -501,28 +524,29 @@ const HomeScreen = () => {
       <TopCloud
         height='35%'
         Title='Rainery'
-        Subtitle='Start moving for optimization to start'
+        Subtitle={location?.coords?.speed > 0.3 ? 'Follow the optimal Speed' : 'Start moving for optimization to start'}
         icon='info'
         theme={theme}
+        textStyle={location?.coords?.speed > 0.3 ? 'textSubtitle1' : 'textSubtitle'}
       />
     <View style={rryStyles.textContainer}>
         { theme === 'light'
-          ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Wind direction: {weather?.wind?.direction ? weather?.wind?.direction : 'Unavailable'}</Text>
-          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Wind direction: {weather?.wind?.direction ? weather?.wind?.direction : 'Unavailable'}</Text>
+          ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Wind direction: {weather?.wind?.direction ? weather?.wind?.direction : 'No Wind'}</Text>
+          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Wind direction: {weather?.wind?.direction ? weather?.wind?.direction : 'No Wind'}</Text>
         }
         { theme === 'light'
-          ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Movement direction: {location?.coords?.cardinal ? location?.coords?.cardinal : 'Unavailable'}</Text>
-          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Movement direction: {location?.coords?.cardinal ? location?.coords?.cardinal : 'Unavailable'}</Text>
+          ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Movement direction: {location?.coords?.speed > 0.3 ? location?.coords?.cardinal : 'Not Moving'}</Text>
+          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Movement direction: {location?.coords?.speed > 0.3 ? location?.coords?.cardinal : 'Not Moving'}</Text>
         }
       </View>
       <Cloud
-        text={optimalSpeed === false ? 'Optimal movement speed: Unavailable' : `Optimal movement speed: ${optimalSpeed} m/s`}
+        text={!optimalSpeed ? 'Optimal movement speed: Unavailable' : `Optimal movement speed: ${optimalSpeed} m/s`}
         textStyle='textRegular'
       />
       <View style={rryStyles.textContainer}>
         { theme === 'light'
-          ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Current Movement Speed: {location?.coords?.speed ? Math.round((location?.coords?.speed + Number.EPSILON) * 10) / 10  + ' m/s' : 'Unavailable'}</Text>
-          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Current Movement Speed: {location?.coords?.speed ? Math.round((location?.coords?.speed + Number.EPSILON) * 10) / 10  + ' m/s' : 'Unavailable'}</Text>
+          ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Current Movement Speed: {'\n'} {location?.coords?.speed ? Math.round((location?.coords?.speed + Number.EPSILON) * 10) / 10  + ' m/s' : 'Unavailable'}</Text>
+          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Current Movement Speed: {'\n'} {location?.coords?.speed ? Math.round((location?.coords?.speed + Number.EPSILON) * 10) / 10  + ' m/s' : 'Unavailable'}</Text>
         }
       </View>
       <Cloud
@@ -588,8 +612,12 @@ const HomeScreen = () => {
 const startupTheme = (theme, setTheme) => {
   const systemTheme = Appearance.getColorScheme();
   if (!theme && systemTheme) {
+    systemTheme === 'dark' ?
+    changeNavigationBarColor(rryColors.dark, false, false) :
+    changeNavigationBarColor(rryColors.light, true, false)
     return systemTheme
   } else if (!theme) {
+    changeNavigationBarColor(rryColors.light, true, false)
     return 'light'
   }
 };

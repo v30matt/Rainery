@@ -18,9 +18,16 @@ export default StyleSheet.create({
     textAlign: 'left',
     paddingTop: 10
   },
+  textSubtitle1: {
+    color: rryColors.white,
+    fontFamily: 'Lato-Italic',
+    fontSize: 40,
+    textAlign: 'left',
+    paddingTop: 10
+  },
   textBig: {
     fontFamily: 'Lato-Regular',
-    fontSize: 36,
+    fontSize: 32,
     textAlign: 'center',
     color: rryColors.primary
   },

@@ -18,7 +18,7 @@ const TopCloud = (props) => {
       </View>
       <View style={styles.textContainer}>
         <Text style={rryStyles.textTitle}>{props.Title}</Text>
-        <Text style={rryStyles.textSubtitle}>{props.Subtitle}</Text>
+        <Text style={rryStyles.[props.textStyle]}>{props.Subtitle}</Text>
       </View>
       <View style={{position: 'absolute', right: 41, top: 70}}>
         { props.icon === 'info' ?
