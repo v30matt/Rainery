@@ -1,4 +1,4 @@
-package com.rainery.rainery.generated;
+package com.rainery.app.generated;
 
 import java.util.Arrays;
 import java.util.List;

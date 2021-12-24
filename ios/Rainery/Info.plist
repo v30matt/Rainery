@@ -25,7 +25,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.rainery.rainery</string>
+				<string>com.rainery.app</string>
 			</array>
 		</dict>
 	</array>

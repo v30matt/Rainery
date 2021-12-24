@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import HomeScreen from './src/screens/HomeScreen';
 import InfoScreen from './src/screens/InfoScreen';
+import SplashScreen from 'react-native-splash-screen';
 
 
 const Stack = createNativeStackNavigator();
@@ -19,8 +20,12 @@ function App() {
     'Lato-Italic': require('./assets/fonts/Lato-Italic.ttf'),
   });
 
+  React.useEffect(() => {
+       SplashScreen.hide();
+  }, []);
+
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   } else {
     return (
       <SafeAreaProvider>
