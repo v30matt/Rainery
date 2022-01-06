@@ -72,7 +72,7 @@ const HomeScreen = () => {
   const appState = useRef(AppState.currentState);
 
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
-  const [theme, setTheme] = useState(startupTheme());
+  const [theme, setTheme] = useState(undefined);
   const [volume, setVolume] = useState('off');
   const [optimalSpeed, setOptimalSpeed] = useState("Unavailable");
   const [speedChange, setSpeedChange] = useState(undefined);
@@ -429,6 +429,7 @@ const HomeScreen = () => {
   const changeTheme = () => {
     if (theme === 'light') {
       setTheme('dark')
+      console.log("Deez nuts");
       changeNavigationBarColor(rryColors.dark, false, false)
     } else {
       setTheme('light')
@@ -517,6 +518,19 @@ const HomeScreen = () => {
       console.log(e);
     }
   }
+
+  useEffect(() => {
+    const systemTheme = Appearance.getColorScheme();
+    if (!theme && systemTheme) {
+      systemTheme === 'dark' ?
+      changeNavigationBarColor(rryColors.dark, false, false):
+      changeNavigationBarColor(rryColors.light, true, false)
+      setTheme(systemTheme)
+    } else if (!theme) {
+      changeNavigationBarColor(rryColors.light, true, false)
+      setTheme('light')
+    }
+  }, [])
 
   return (
     <View style={{flex: 1, backgroundColor: rryColors.[theme]}}>
@@ -607,19 +621,6 @@ const HomeScreen = () => {
       </View>
   </View>
   );
-};
-
-const startupTheme = (theme, setTheme) => {
-  const systemTheme = Appearance.getColorScheme();
-  if (!theme && systemTheme) {
-    systemTheme === 'dark' ?
-    changeNavigationBarColor(rryColors.dark, false, false) :
-    changeNavigationBarColor(rryColors.light, true, false)
-    return systemTheme
-  } else if (!theme) {
-    changeNavigationBarColor(rryColors.light, true, false)
-    return 'light'
-  }
 };
 
 
