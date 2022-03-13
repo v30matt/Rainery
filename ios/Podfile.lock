@@ -230,6 +230,8 @@ PODS:
     - React
   - react-native-safe-area-context (3.2.0):
     - React-Core
+  - react-native-splash-screen (3.3.0):
+    - React-Core
   - React-RCTActionSheet (0.63.4):
     - React-Core/RCTActionSheetHeaders (= 0.63.4)
   - React-RCTAnimation (0.63.4):
@@ -376,6 +378,7 @@ DEPENDENCIES:
   - react-native-geolocation-service (from `../node_modules/react-native-geolocation-service`)
   - react-native-headphone-detection (from `../node_modules/react-native-headphone-detection`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -463,6 +466,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-headphone-detection"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-splash-screen:
+    :path: "../node_modules/react-native-splash-screen"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -538,6 +543,7 @@ SPEC CHECKSUMS:
   react-native-geolocation-service: 32e50a2e4e4518b51b829fdfe137562a672d95d2
   react-native-headphone-detection: 0c51cb8ea84b396f1472f4246a59acac6f402c38
   react-native-safe-area-context: e471852c5ed67eea4b10c5d9d43c1cebae3b231d
+  react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
   React-RCTBlob: a97d378b527740cc667e03ebfa183a75231ab0f0
