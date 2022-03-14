@@ -16,7 +16,6 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import Geolocation from 'react-native-geolocation-service';
-import VIForegroundService from '@voximplant/react-native-foreground-service';
 import HeadphoneDetection from 'react-native-headphone-detection';
 import Cloud from '../components/Cloud';
 import TopCloud from '../components/TopCloud';
@@ -211,10 +210,6 @@ const HomeScreen = () => {
       return;
     }
 
-    if (Platform.OS === 'android' && foregroundService) {
-      await startForegroundService();
-    }
-
     setObserving(true);
 
     watchId.current = Geolocation.watchPosition(
@@ -245,36 +240,13 @@ const HomeScreen = () => {
 
   const removeLocationUpdates = useCallback(() => {
     if (watchId.current !== null) {
-      stopForegroundService();
       Geolocation.clearWatch(watchId.current);
       watchId.current = null;
       setObserving(false);
     }
-  }, [stopForegroundService]);
-
-  const startForegroundService = async () => {
-    if (Platform.Version >= 26) {
-      await VIForegroundService.createNotificationChannel({
-        id: 'locationChannel',
-        name: 'Location Tracking Channel',
-        description: 'Tracks location of user',
-        enableVibration: false,
-        importance: 1
-      });
-    }
-
-    return VIForegroundService.startService({
-      channelId: 'locationChannel',
-      id: 420,
-      title: 'Rainery',
-      text: 'Tracking location updates',
-      icon: 'ic_launcher',
-    });
-  };
-
-  const stopForegroundService = useCallback(() => {
-    VIForegroundService.stopService().catch((err) => err);
   }, []);
+
+
 
   const getCardinal = (direction) => {
     if (direction) {

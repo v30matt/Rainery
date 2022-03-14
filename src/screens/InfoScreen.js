@@ -36,8 +36,8 @@ const InfoScreen = ({ route, navigation }) => {
         </View>
         <View style={rryStyles.textContainer}>
           { theme === 'light'
-            ? <Text style={[rryStyles.textSmall, {paddingVertical: 5}]}>{`We have saved you from ${secondsMoving * 15} drops of rain up to now. That’s as much as ${Math.round(secondsMoving / 1800) / 100} bathtubs!`}</Text>
-            : <Text style={[rryStyles.textSmall, {paddingVertical: 5, color: rryColors.white}]}>{`We have saved you from ${secondsMoving * 15} drops of rain up to now. That’s as much as ${Math.round(secondsMoving / 1800) / 100} bathtubs!`}</Text>
+            ? <Text style={[rryStyles.textSmall, {paddingVertical: 5}]}>{`We have saved you from ${secondsMoving ? secondsMoving * 15 : 0} drops of rain up to now. That’s as much as ${Math.round(secondsMoving / 1800) / 100} bathtubs!`}</Text>
+            : <Text style={[rryStyles.textSmall, {paddingVertical: 5, color: rryColors.white}]}>{`We have saved you from ${secondsMoving ? secondsMoving * 15 : 0} drops of rain up to now. That’s as much as ${Math.round(secondsMoving / 1800) / 100} bathtubs!`}</Text>
           }
         </View>
         <View style={{height: 89, marginVertical: 10}}>

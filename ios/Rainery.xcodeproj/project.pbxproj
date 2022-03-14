@@ -329,7 +329,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.rainery.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rainerystudios.rainery;
 				PRODUCT_NAME = rainery;
 				SWIFT_OBJC_BRIDGING_HEADER = "Rainery/Rainery-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -356,7 +356,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.rainery.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rainerystudios.rainery;
 				PRODUCT_NAME = rainery;
 				SWIFT_OBJC_BRIDGING_HEADER = "Rainery/Rainery-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
