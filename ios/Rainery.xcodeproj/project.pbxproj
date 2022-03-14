@@ -12,9 +12,10 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		956B0FF0270D862000FCD35B /* keep_up_this_speed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 956B0FED270D862000FCD35B /* keep_up_this_speed.mp3 */; };
-		956B0FF1270D862000FCD35B /* speed_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 956B0FEE270D862000FCD35B /* speed_up.mp3 */; };
-		956B0FF2270D862000FCD35B /* slow_down.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 956B0FEF270D862000FCD35B /* slow_down.mp3 */; };
+		95FF709E27DE2BD800DF0EA8 /* speed_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 95FF709A27DE2BD800DF0EA8 /* speed_up.mp3 */; };
+		95FF709F27DE2BD800DF0EA8 /* keep_up_this_speed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 95FF709B27DE2BD800DF0EA8 /* keep_up_this_speed.mp3 */; };
+		95FF70A027DE2BD800DF0EA8 /* afayc.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 95FF709C27DE2BD800DF0EA8 /* afayc.mp3 */; };
+		95FF70A127DE2BD800DF0EA8 /* slow_down.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 95FF709D27DE2BD800DF0EA8 /* slow_down.mp3 */; };
 		96905EF65AED1B983A6B3ABC /* libPods-Rainery.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-Rainery.a */; };
 		B52EC1485D0343CDAA4E208B /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44F94D7973C4C8396107397 /* noop-file.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
@@ -33,9 +34,10 @@
 		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-Rainery.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Rainery.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C2E3173556A471DD304B334 /* Pods-Rainery.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rainery.debug.xcconfig"; path = "Target Support Files/Pods-Rainery/Pods-Rainery.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-Rainery.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rainery.release.xcconfig"; path = "Target Support Files/Pods-Rainery/Pods-Rainery.release.xcconfig"; sourceTree = "<group>"; };
-		956B0FED270D862000FCD35B /* keep_up_this_speed.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = keep_up_this_speed.mp3; path = "../../../Home/Downloads/OneDrive_1_06-10-2021/keep_up_this_speed.mp3"; sourceTree = "<group>"; };
-		956B0FEE270D862000FCD35B /* speed_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = speed_up.mp3; path = "../../../Home/Downloads/OneDrive_1_06-10-2021/speed_up.mp3"; sourceTree = "<group>"; };
-		956B0FEF270D862000FCD35B /* slow_down.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = slow_down.mp3; path = "../../../Home/Downloads/OneDrive_1_06-10-2021/slow_down.mp3"; sourceTree = "<group>"; };
+		95FF709A27DE2BD800DF0EA8 /* speed_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = speed_up.mp3; path = ../android/app/src/main/res/raw/speed_up.mp3; sourceTree = "<group>"; };
+		95FF709B27DE2BD800DF0EA8 /* keep_up_this_speed.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = keep_up_this_speed.mp3; path = ../android/app/src/main/res/raw/keep_up_this_speed.mp3; sourceTree = "<group>"; };
+		95FF709C27DE2BD800DF0EA8 /* afayc.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = afayc.mp3; path = ../android/app/src/main/res/raw/afayc.mp3; sourceTree = "<group>"; };
+		95FF709D27DE2BD800DF0EA8 /* slow_down.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = slow_down.mp3; path = ../android/app/src/main/res/raw/slow_down.mp3; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = Rainery/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		E44F94D7973C4C8396107397 /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "Rainery/noop-file.swift"; sourceTree = "<group>"; };
@@ -93,9 +95,10 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				956B0FED270D862000FCD35B /* keep_up_this_speed.mp3 */,
-				956B0FEF270D862000FCD35B /* slow_down.mp3 */,
-				956B0FEE270D862000FCD35B /* speed_up.mp3 */,
+				95FF709C27DE2BD800DF0EA8 /* afayc.mp3 */,
+				95FF709B27DE2BD800DF0EA8 /* keep_up_this_speed.mp3 */,
+				95FF709D27DE2BD800DF0EA8 /* slow_down.mp3 */,
+				95FF709A27DE2BD800DF0EA8 /* speed_up.mp3 */,
 				13B07FAE1A68108700A75B9A /* Rainery */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -194,12 +197,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
-				956B0FF0270D862000FCD35B /* keep_up_this_speed.mp3 in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				95FF709F27DE2BD800DF0EA8 /* keep_up_this_speed.mp3 in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				95FF70A027DE2BD800DF0EA8 /* afayc.mp3 in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				956B0FF1270D862000FCD35B /* speed_up.mp3 in Resources */,
-				956B0FF2270D862000FCD35B /* slow_down.mp3 in Resources */,
+				95FF709E27DE2BD800DF0EA8 /* speed_up.mp3 in Resources */,
+				95FF70A127DE2BD800DF0EA8 /* slow_down.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,7 +222,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n../node_modules/expo-constants/scripts/get-app-config-ios.sh\n../node_modules/expo-updates/scripts/create-manifest-ios.sh\n";
+			shellScript = "export NODE_BINARY=/usr/local/opt/node@10/bin/node\n../node_modules/react-native/scripts/react-native-xcode.sh\n../node_modules/expo-constants/scripts/get-app-config-ios.sh\n../node_modules/expo-updates/scripts/create-manifest-ios.sh\n";
 		};
 		08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
