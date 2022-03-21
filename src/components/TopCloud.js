@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import BigCloudSvg from '../../assets/svg/TopCloud.svg';
 import InfoSvg from '../../assets/svg/info.svg';
 import XCircleSvg from '../../assets/svg/x-circle.svg'
@@ -7,10 +7,18 @@ import rryStyles from '../../assets/styles/rryStyles';
 import rryColors from '../../assets/styles/rryColors';
 import { useNavigation } from '@react-navigation/native';
 
+const windowHeight = (dividability) => {
+  return Dimensions.get('screen').height / dividability
+}
+
+const windowWidth = (dividability) => {
+  return Dimensions.get('screen').width / dividability
+}
+
 const TopCloud = (props) => {
   const navigation = useNavigation();
   return (
-    <View style={[styles.container, {height: props.height}]}>
+    <View style={[styles.container, {height: windowHeight(props.height)}]}>
       <View style={{justifyContent: 'flex-end', height: '100%', width: '100%'}}>
         <BigCloudSvg
           width='100%'
@@ -20,7 +28,7 @@ const TopCloud = (props) => {
         <Text style={rryStyles.textTitle}>{props.Title}</Text>
         <Text style={rryStyles.[props.textStyle]}>{props.Subtitle}</Text>
       </View>
-      <View style={{position: 'absolute', right: 41, top: 70}}>
+      <View style={{position: 'absolute', right: 41, top: windowHeight(14)}}>
         { props.icon === 'info' ?
           <TouchableOpacity
             onPress={() => {
@@ -61,8 +69,8 @@ const styles = StyleSheet.create({
   textContainer: {
     flexDirection: 'column',
     position: 'absolute',
-    marginHorizontal: 30,
-    marginVertical: 50
+    marginHorizontal: windowWidth(13.1),
+    marginTop: windowHeight(18)
   }
 });
 

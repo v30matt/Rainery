@@ -1,4 +1,4 @@
-package com.rainery.app;
+package com.rainerystudios.rainery;
 import android.content.res.Configuration;
 import android.content.Intent;
 

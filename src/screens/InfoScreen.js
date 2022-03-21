@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Appearance, StatusBar, Switch } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Appearance, StatusBar, Switch, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Cloud from '../components/Cloud';
 import TopCloud from '../components/TopCloud';
 import rryStyles from '../../assets/styles/rryStyles';
 import rryColors from '../../assets/styles/rryColors';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+const windowHeight = (dividability) => {
+  return Dimensions.get('screen').height / dividability
+}
+
+const windowWidth = (dividability) => {
+  return Dimensions.get('screen').width / dividability
+}
 
 const InfoScreen = ({ route, navigation }) => {
   const { propsTheme } = route.params;
@@ -19,16 +27,16 @@ const InfoScreen = ({ route, navigation }) => {
       getSecondsMoving().then(secondsMovingRetrieved => setSecondsMoving(secondsMovingRetrieved))
     }, [])
   return (
-    <SafeAreaView style={{flex: 1, paddingBottom: 20, backgroundColor: rryColors.[theme]}} edges={['bottom']}>
+    <SafeAreaView style={{flex: 1, paddingBottom: windowHeight(37.5), backgroundColor: rryColors.[theme]}} edges={['bottom']}>
       <StatusBar translucent backgroundColor="transparent" />
       <TopCloud
-        height='20%'
+        height='5'
         Title='About'
         Icon='close'
         onXButtonPress={() => onXButtonPress(navigation)}
       />
-      <View style={{justifyContent: 'flex-start', marginTop: 5}}>
-        <View style={{height: 89, marginVertical: 10}}>
+    <View style={{justifyContent: 'flex-start', marginTop: windowWidth(-150)}}>
+        <View style={{height: '13%', marginVertical: windowHeight(50)}}>
           <Cloud
             text='Rain saved:'
             textStyle='textRegular'
@@ -36,11 +44,11 @@ const InfoScreen = ({ route, navigation }) => {
         </View>
         <View style={rryStyles.textContainer}>
           { theme === 'light'
-            ? <Text style={[rryStyles.textSmall, {paddingVertical: 5}]}>{`We have saved you from ${secondsMoving * 15} drops of rain up to now. That’s as much as ${Math.round(secondsMoving / 1800) / 100} bathtubs!`}</Text>
-            : <Text style={[rryStyles.textSmall, {paddingVertical: 5, color: rryColors.white}]}>{`We have saved you from ${secondsMoving * 15} drops of rain up to now. That’s as much as ${Math.round(secondsMoving / 1800) / 100} bathtubs!`}</Text>
+            ? <Text style={[rryStyles.textSmall, {paddingVertical: windowHeight(150)}]}>{`We have saved you from 13097482 drops of rain up to now. That’s as much as 3.5 bathtubs!`}</Text>
+            : <Text style={[rryStyles.textSmall, {paddingVertical: windowHeight(150), color: rryColors.white}]}>{`We have saved you from 13097482 drops of rain up to now. That’s as much as 3.5 bathtubs!`}</Text>
           }
         </View>
-        <View style={{height: 89, marginVertical: 10}}>
+        <View style={{height: windowWidth(5), marginVertical: '2%'}}>
           <Cloud
             text='How it works:'
             textStyle='textRegular'
@@ -48,11 +56,11 @@ const InfoScreen = ({ route, navigation }) => {
         </View>
         <View style={rryStyles.textContainer}>
           { theme === 'light'
-            ? <Text style={[rryStyles.textSmall, {paddingVertical: 5}]}>We use live weather data and your movement direction to calculate the movement speed which minimizes the exposure to rain. </Text>
-            : <Text style={[rryStyles.textSmall, {paddingVertical: 5, color: rryColors.white}]}>We use live weather data and your movement direction to calculate the movement speed which minimizes the exposure to rain. </Text>
+            ? <Text style={[rryStyles.textSmall, {paddingVertical: windowHeight(150)}]}>We use live weather data and your movement direction to calculate the movement speed which minimizes the exposure to rain. </Text>
+            : <Text style={[rryStyles.textSmall, {paddingVertical: windowHeight(150), color: rryColors.white}]}>We use live weather data and your movement direction to calculate the movement speed which minimizes the exposure to rain. </Text>
           }
         </View>
-        <View style={{height: 89, marginVertical: 10}}>
+        <View style={{height: windowWidth(5), marginVertical: windowHeight(50)}}>
           <Cloud
             text='Settings'
             textStyle='textRegular'
@@ -61,8 +69,8 @@ const InfoScreen = ({ route, navigation }) => {
         <View style={{height: '20%', justifyContent: 'flex-start'}}>
           <View style={rryStyles.textContainer}>
             { theme === 'light'
-              ? <Text style={[rryStyles.textSmall, {paddingTop: 15}]}>Sound:</Text>
-              : <Text style={[rryStyles.textSmall, {paddingTop: 15, color: rryColors.white}]}>Sound:</Text>
+              ? <Text style={[rryStyles.textSmall, {paddingTop: windowHeight(50)}]}>Sound:</Text>
+              : <Text style={[rryStyles.textSmall, {paddingTop: windowHeight(50), color: rryColors.white}]}>Sound:</Text>
             }
           </View>
           <View style={styles.settingContainer}>
@@ -82,7 +90,7 @@ const InfoScreen = ({ route, navigation }) => {
               }}
               value={soundIsEnabled}
             />
-            <View style={{alignSelf: 'flex-start', width: '40%'}}>
+            <View style={{width: '40%'}}>
               { theme === 'light'
                 ? <Text style={rryStyles.textSmall}>Always</Text>
                 : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Always</Text>
@@ -91,15 +99,15 @@ const InfoScreen = ({ route, navigation }) => {
           </View>
           <View style={rryStyles.textContainer}>
             { theme === 'light'
-              ? <Text style={[rryStyles.textSmall, {paddingTop: 10}]}>Location Accuracy:</Text>
-              : <Text style={[rryStyles.textSmall, {paddingTop: 10, color: rryColors.white}]}>Location Accuracy:</Text>
+              ? <Text style={[rryStyles.textSmall, {paddingTop: windowHeight(50)}]}>Location Accuracy:</Text>
+              : <Text style={[rryStyles.textSmall, {paddingTop: windowHeight(50), color: rryColors.white}]}>Location Accuracy:</Text>
             }
           </View>
-          <View style={styles.settingContainer}>
+          <View style={[styles.settingContainer, {marginBottom: windowHeight(75)}]}>
             <View style={{width: '35%'}}>
               { theme === 'light'
-                ? <Text style={rryStyles.textSmall}>Battery Optimized</Text>
-                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Battery Optimized</Text>
+                ? <Text style={rryStyles.textSmall}>Battery {'\n'} Optimized</Text>
+                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Battery {'\n'} Optimized</Text>
               }
             </View>
             <Switch
@@ -112,10 +120,10 @@ const InfoScreen = ({ route, navigation }) => {
               }}
               value={accuracyIsEnabled}
             />
-            <View style={{alignSelf: 'flex-start', width: '40%'}}>
+          <View style={{width: '40%'}}>
               { theme === 'light'
-                ? <Text style={rryStyles.textSmall}>Accuracy Optimized</Text>
-                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Accuracy Optimized</Text>
+                ? <Text style={rryStyles.textSmall}>Accuracy {'\n'} Optimized</Text>
+                : <Text style={[rryStyles.textSmall, {color: rryColors.white}]}>Accuracy {'\n'} Optimized</Text>
               }
             </View>
           </View>
@@ -184,7 +192,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '90%',
     alignSelf: 'center',
-    paddingTop: 10
+    paddingTop: windowHeight(100)
   },
 });
 

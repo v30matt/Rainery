@@ -12,12 +12,12 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.rainery.app",
+      "bundleIdentifier": "com.rainerystudios.rainery",
       "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
-      "package": "com.rainery.app",
+      "package": "com.rainerystudios.rainery",
       "versionCode": 1,
     },
     "web": {

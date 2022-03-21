@@ -11,7 +11,8 @@ import {
   Linking,
   PermissionsAndroid,
   Platform,
-  ToastAndroid
+  ToastAndroid,
+  Dimensions
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
@@ -64,6 +65,15 @@ var afayc = new Sound('afayc.mp3', Sound.MAIN_BUNDLE, (error) => {
     return;
   }
 });
+
+const windowHeight = (dividability) => {
+  return Dimensions.get('screen').height / dividability
+}
+
+const windowWidth = (dividability) => {
+  return Dimensions.get('screen').width / dividability
+}
+
 
 // -- react-native-sound logic END --
 
@@ -536,87 +546,93 @@ const HomeScreen = () => {
     <View style={{flex: 1, backgroundColor: rryColors.[theme]}}>
       <StatusBar translucent backgroundColor="transparent" />
       <TopCloud
-        height='35%'
+        height='3'
         Title='Rainery'
         Subtitle={location?.coords?.speed > 0.3 ? 'Follow the optimal Speed' : 'Start moving for optimization to start'}
         icon='info'
         theme={theme}
         textStyle={location?.coords?.speed > 0.3 ? 'textSubtitle1' : 'textSubtitle'}
       />
-    <View style={rryStyles.textContainer}>
-        { theme === 'light'
-          ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Wind direction: {weather?.wind?.direction ? weather?.wind?.direction : 'No Wind'}</Text>
-          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Wind direction: {weather?.wind?.direction ? weather?.wind?.direction : 'No Wind'}</Text>
-        }
-        { theme === 'light'
-          ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Movement direction: {location?.coords?.speed > 0.3 ? location?.coords?.cardinal : 'Not Moving'}</Text>
-          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Movement direction: {location?.coords?.speed > 0.3 ? location?.coords?.cardinal : 'Not Moving'}</Text>
-        }
-      </View>
-      <Cloud
-        text={!optimalSpeed ? 'Optimal movement speed: Unavailable' : `Optimal movement speed: ${optimalSpeed} m/s`}
-        textStyle='textRegular'
-      />
-      <View style={rryStyles.textContainer}>
-        { theme === 'light'
-          ? <Text style={[rryStyles.textRegular, {paddingVertical: 15}]}>Current Movement Speed: {'\n'} {location?.coords?.speed ? Math.round((location?.coords?.speed + Number.EPSILON) * 10) / 10  + ' m/s' : 'Unavailable'}</Text>
-          : <Text style={[rryStyles.textRegular, {paddingVertical: 15, color: rryColors.white}]}>Current Movement Speed: {'\n'} {location?.coords?.speed ? Math.round((location?.coords?.speed + Number.EPSILON) * 10) / 10  + ' m/s' : 'Unavailable'}</Text>
-        }
-      </View>
-      <Cloud
-        text={
-          (speedChange === 'speedUp') ? 'Faster!'
-          : (speedChange === 'slowDown') ? 'Slow Down!'
-            : (speedChange === 'keepGoing') ? 'Keep it up!'
-              : (speedChange === 'afayc') ? 'As fast as you can!'
-                : 'Unavailable'
-        }
-        textStyle='textBig'
-      />
-      <View style={styles.multiIconContainer}>
-        <View style={{paddingRight: 60}}>
-          <TouchableOpacity
-            onPress={() => {
-              setVolume(volume === 'off' ? 'on' : 'off')
-            }}
-          >
-            { volume === 'off'
-              ? <VolumeXSvg
-                  stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
-                  strokeWidth={1.5}
-                  height={41}
-                  width={41}
-                />
-              : <VolumeOnSvg
-                  stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
-                  strokeWidth={1.5}
-                  height={41}
-                  width={41}
-                />
-            }
-          </TouchableOpacity>
+    <View style={{justifyContent: 'flex-start', height: '65%'}}>
+        <View style={rryStyles.textContainer}>
+          { theme === 'light'
+            ? <Text style={[rryStyles.textRegular, {paddingVertical: windowHeight(50)}]}>Wind direction: {weather?.wind?.direction ? weather?.wind?.direction : 'No Wind'}</Text>
+            : <Text style={[rryStyles.textRegular, {paddingVertical: windowHeight(50), color: rryColors.white}]}>Wind direction: {weather?.wind?.direction ? weather?.wind?.direction : 'No Wind'}</Text>
+          }
+          { theme === 'light'
+            ? <Text style={[rryStyles.textRegular, {paddingVertical: windowHeight(50)}]}>Movement direction: {location?.coords?.speed > 0.3 ? location?.coords?.cardinal : 'Not Moving'}</Text>
+            : <Text style={[rryStyles.textRegular, {paddingVertical: windowHeight(50), color: rryColors.white}]}>Movement direction: {location?.coords?.speed > 0.3 ? location?.coords?.cardinal : 'Not Moving'}</Text>
+          }
         </View>
-        <View style={{paddingLeft: 60}}>
-          <TouchableOpacity
-            onPress={() => {
-              changeTheme()
-            }}
-          >
-            { theme === 'dark'
-              ? <DarkThemeIconSvg
-                  stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
-                  strokeWidth={1.5}
-                  height={41}
-                  width={41}
-                />
-              : <LightThemeIconSvg
-                  stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
-                  strokeWidth={1.5}
-                  height={41}
-                  width={41}
-                />
+        <View style={{height: windowWidth(4.2), marginVertical: windowHeight(100)}}>
+          <Cloud
+            text={!optimalSpeed ? 'Optimal movement speed: Unavailable' : `Optimal movement speed: ${optimalSpeed} m/s`}
+            textStyle='textRegular'
+          />
+        </View>
+        <View style={rryStyles.textContainer}>
+          { theme === 'light'
+            ? <Text style={[rryStyles.textRegular, {paddingVertical: windowHeight(50)}]}>Current Movement Speed: {'\n'} {location?.coords?.speed ? Math.round((location?.coords?.speed + Number.EPSILON) * 10) / 10  + ' m/s' : 'Unavailable'}</Text>
+            : <Text style={[rryStyles.textRegular, {paddingVertical: windowHeight(50), color: rryColors.white}]}>Current Movement Speed: {'\n'} {location?.coords?.speed ? Math.round((location?.coords?.speed + Number.EPSILON) * 10) / 10  + ' m/s' : 'Unavailable'}</Text>
+          }
+        </View>
+        <View style={{height: windowWidth(4.2), marginVertical: windowHeight(100)}}>
+          <Cloud
+            text={
+              (speedChange === 'speedUp') ? 'Faster!'
+              : (speedChange === 'slowDown') ? 'Slow Down!'
+                : (speedChange === 'keepGoing') ? 'Keep it up!'
+                  : (speedChange === 'afayc') ? 'As fast as you can!'
+                    : 'Unavailable'
             }
-          </TouchableOpacity>
+            textStyle='textBig'
+          />
+      </View>
+        <View style={styles.multiIconContainer}>
+          <View style={{paddingRight: 60}}>
+            <TouchableOpacity
+              onPress={() => {
+                setVolume(volume === 'off' ? 'on' : 'off')
+              }}
+            >
+              { volume === 'off'
+                ? <VolumeXSvg
+                    stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
+                    strokeWidth={1.5}
+                    height={41}
+                    width={41}
+                  />
+                : <VolumeOnSvg
+                    stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
+                    strokeWidth={1.5}
+                    height={41}
+                    width={41}
+                  />
+              }
+            </TouchableOpacity>
+          </View>
+          <View style={{paddingLeft: 60}}>
+            <TouchableOpacity
+              onPress={() => {
+                changeTheme()
+              }}
+            >
+              { theme === 'dark'
+                ? <DarkThemeIconSvg
+                    stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
+                    strokeWidth={1.5}
+                    height={41}
+                    width={41}
+                  />
+                : <LightThemeIconSvg
+                    stroke={theme === 'dark' ? rryColors.white : rryColors.primary}
+                    strokeWidth={1.5}
+                    height={41}
+                    width={41}
+                  />
+              }
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
   </View>
@@ -629,8 +645,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 20,
-    paddingBottom: 30
+    paddingTop: windowHeight(50),
+    paddingBottom: windowHeight(25)
   }
 });
 

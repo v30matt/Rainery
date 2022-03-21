@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import CloudSvg from '../../assets/svg/Cloud.svg';
 import rryStyles from '../../assets/styles/rryStyles';
 import rryColors from '../../assets/styles/rryColors';
@@ -18,6 +18,10 @@ const Cloud = (props) => {
   );
 };
 
+const windowHeight = (dividability) => {
+  return Dimensions.get('screen').height / dividability
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -29,7 +33,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '70%',
-    paddingTop: 5
+    paddingTop: windowHeight(150)
   }
 });
 
